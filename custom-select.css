@@ -1,0 +1,113 @@
+custom-select {
+	box-sizing: border-box;
+	min-width: var(--mwidth, unset);
+	user-select: none;
+	position: relative;
+	z-index: 10;
+
+	&[opened] {
+		&::part(options) {
+			opacity: 1;
+			visibility: visible;
+		}
+
+		&::part(base)::after {
+			rotate: 180deg;
+		}
+	}
+
+	&::part(select) {
+		box-sizing: border-box;
+		position: relative;
+	}
+
+	&::part(base) {
+		box-sizing: border-box;
+		white-space: nowrap;
+		font-size: var(--select-fs, 1em);
+		font-weight: 500;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1em;
+		padding-inline: var(--select-pad-x, .5em);
+		height: var(--select-min-height, 2.5em);
+		cursor: pointer;
+		border-width: var(--select-border-w, 1px);
+		border-style: solid;
+		border-color: var(--select-border, black);
+		transition: all var(--tr-primary, .35s ease-in-out);
+
+		&::after {
+			width: var(--select-icon-w, 1em);
+			height: 100%;
+			display: inline-flex;
+			content: '';
+			background-image: url('data:image/svg+xml,<svg width="1.2em" height="1.2em" fill="red" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.7 11.3l-6-6c-0.4-0.4-1-0.4-1.4 0s-0.4 1 0 1.4l5.3 5.3-5.3 5.3c-0.4 0.4-0.4 1 0 1.4 0.2 0.2 0.4 0.3 0.7 0.3s0.5-0.1 0.7-0.3l6-6c0.4-0.4 0.4-1 0-1.4z"></path></svg>');
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: contain;
+			transform-origin: center;
+			transition: rotate var(--tr-primary, .35s ease-in-out);
+		}
+	}
+
+	&::part(options) {
+		font-size: var(--options-fs, 1em);
+		box-sizing: border-box;
+		margin: 0;
+		padding: var(--options-pad-y, 0) 0;
+		list-style: none;
+		position: absolute;
+		z-index: 15;
+		top: calc(100% - var(--select-border-w, 1px));
+		left: 0;
+		width: 100%;
+		border-width: var(--select-border-w, 1px);
+		border-style: solid;
+		max-height: calc(var(--options-pad-y, 0) * 2 + (var(--option-pad-y, .5em) * 2 + 1em) * var(--options-max-display-items, 5));
+		overflow-y: auto;
+		scrollbar-color: var(--accent-primary, dimgray) transparent;
+		transition: all var(--tr-primary, .35s ease-in-out);
+		opacity: 0;
+		visibility: hidden;
+	}
+
+	&::part(option) {
+		box-sizing: border-box;
+		display: block;
+		text-transform: capitalize;
+		padding: var(--option-pad-y, .5em) var(--select-pad-x, .5em);
+		cursor: pointer;
+		transition: background-color var(--tr-primary, .35s ease-in-out);
+
+		&:hover {
+			background-color: var(--option-hover-bg, lightblue);
+		}
+	}
+
+	&:hover {
+		&::part(base) {
+			border-color: var(--select-hover-border, lightblue);
+		}
+	}
+
+	&:focus-within,
+	&[opened] {
+		filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, .15));
+
+		&::part(base) {
+			border-color: var(--select-opened-border, lightblue);
+			border-bottom-color: var(--select-opened-bg, white);
+			background-color: var(--select-opened-bg, white);
+			color: var(--select-opened-color, black);
+		}
+
+		&::part(options) {
+			border-color: var(--select-opened-border, lightblue);
+			border-top: none;
+			background-color: var(--select-opened-bg, white);
+			color: var(--select-opened-color, black);
+		}
+	}
+}

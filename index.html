@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>custom-select</title>
+    <link rel="stylesheet" href="./custom-select.css">
+    <script src="./custom-select.js" defer></script>
+</head>
+<body>
+    <h2>Default (no <i>placeholder</i>, no <i>selected</i>)</h2>
+    <custom-select>
+        <option value="python">Python</option>
+        <option value="jabascript">JavaScript</option>
+        <option value="java">Java</option>
+        <option value="c#">C#</option>
+        <option value="c++">C++</option>
+        <option value="typescript">TypeScript</option>
+    </custom-select>
+
+    <h2>With <i>placeholder</i> value</h2>
+    <custom-select placeholder="Placeholder">
+        <option value="python">Python</option>
+        <option value="jabascript">JavaScript</option>
+        <option value="java">Java</option>
+        <option value="c#">C#</option>
+        <option value="c++">C++</option>
+        <option value="typescript">TypeScript</option>
+    </custom-select>
+
+    <h2>With <i>selected</i> value</h2>
+    <custom-select>
+        <option value="python">Python</option>
+        <option value="jabascript" selected>JavaScript</option>
+        <option value="java">Java</option>
+        <option value="c#">C#</option>
+        <option value="c++">C++</option>
+        <option value="typescript">TypeScript</option>
+    </custom-select>
+</body>
+</html>
