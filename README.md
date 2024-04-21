@@ -1,12 +1,13 @@
 # Todo
 
-1. Create more convenient way to use default and custom arrow icons
+1. ? Remove extra wrapper part="select"
 1. Remove `position: absolute`, use `height: 0` + `overflow: visible` instead
     - Remove mwidth
 1. Create leaned single-file version with CSS-in-JS 
     - It should not use CSS variables, but only default values
     - ? It should be extendable in-place with CSS classes or similar
 1. Make it possible to link files to a project by external links
+1. Add nicer previews and demos with links to code or the code itself (<code>&lt;details&gt;</code> or whatever)
 
 # <code>&lt;custom-select&gt;</code>
 
