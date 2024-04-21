@@ -1,12 +1,11 @@
 # Todo
 
-1. Remove `position: absolute`, use `height: 0` + `overflow: visible` instead
-    - Remove mwidth
 1. Create leaned single-file version with CSS-in-JS 
     - It should not use CSS variables, but only default values
     - ? It should be extendable in-place with CSS classes or similar
 1. Make it possible to link files to a project by external links
 1. Add nicer previews and demos with links to code or the code itself (<code>&lt;details&gt;</code> or whatever)
+1. Add Quick Links at the start of Readme
 
 # <code>&lt;custom-select&gt;</code>
 
@@ -113,9 +112,9 @@ document.querySelector('custom-select')
 
 <table>
   <tr>
-    <th>CSS variable</th>
-    <th>Affected parts</th>
-    <th>Default value</th>
+    <th width="60%">CSS variable</th>
+    <th width="20%">Affected parts</th>
+    <th width="20%">Default value</th>
   </tr>
   <tr>
     <td colspan="3" align="center">Sizes</td>

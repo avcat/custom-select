@@ -45,12 +45,6 @@ customElements.define('custom-select', class customSelect extends HTMLElement {
 	}
 
 	renderOnce() {
-		const mwidth = this.getAttribute('mwidth');
-
-		if (mwidth) {
-			this.style.setProperty('--mwidth', `${mwidth}px`);
-		}
-
 		let selectedValue = null;
 		
 		const base = document.createElement('div');
@@ -63,9 +57,13 @@ customElements.define('custom-select', class customSelect extends HTMLElement {
 		const optionsNodesVanilla = [...this.querySelectorAll('option')];
 
 		if (optionsNodesVanilla.length > 0) {
+			const optionsWrapper = document.createElement('div');
+			optionsWrapper.setAttribute('part', 'options-wrapper');
+			this.#shadowRoot.appendChild(optionsWrapper);
+
 			const options = document.createElement('ul');
 			options.setAttribute('part', 'options');
-			this.#shadowRoot.appendChild(options);
+			optionsWrapper.appendChild(options);
 
 			optionsNodesVanilla.forEach(optionNodeVanilla => {
 				const { value, textContent, selected } = optionNodeVanilla;
