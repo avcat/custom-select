@@ -1,6 +1,5 @@
 # Todo
 
-1. ? Remove extra wrapper part="select"
 1. Remove `position: absolute`, use `height: 0` + `overflow: visible` instead
     - Remove mwidth
 1. Create leaned single-file version with CSS-in-JS 
@@ -100,16 +99,14 @@ document.querySelector('custom-select')
 
 ```html
 <!-- The resulting DOM nodes for the reference -->
-<custom-select name="bedrooms" value="bedrooms-2">
+<custom-select name="programming-language" value="javascript">
   #shadow-root (open) ⤵
-    <div part="select">
-      <div part="base">2 Bedrooms</div>
-      <ul part="options">
-        <li part="option" value="all">All</li>
-        <li part="option" value="bedrooms-1">1 Bedroom</li>
-        <li part="option" value="bedrooms-2" selected="">2 Bedrooms</li>
-      </ul>
-    </div>
+    <div part="base">JavaScript</div>
+    <ul part="options">
+      <li part="option" value="javascript" selected="">JavaScript</li>
+      <li part="option" value="python">Python</li>
+      <li part="option" value="java">Java</li>
+    </ul>
   #(end shadow-root) ⤶
 </custom-select>
 ```
@@ -124,39 +121,39 @@ document.querySelector('custom-select')
     <td colspan="3" align="center">Sizes</td>
   </tr>
   <tr>
-    <td><code>--select-min-height</code></td>
+    <td><code>--base-min-height</code></td>
     <td>base</td>
-    <td>40px</td>
+    <td>2.5em</td>
   </tr>
   <tr>
-    <td><code>--select-pad-x</code></td>
+    <td><code>--base-padding-inline</code></td>
     <td>base, option</td>
-    <td>9px</td>
+    <td>0.5em</td>
   </tr>
   <tr>
-    <td><code>--select-icon-w</code></td>
+    <td><code>--base-icon-width</code></td>
     <td>base</td>
-    <td>14px</td>
+    <td>1em</td>
   </tr>
   <tr>
-    <td><code>--select-border-w</code></td>
+    <td><code>--base-border-width</code></td>
     <td>base, options</td>
     <td>1px</td>
   </tr>
   <tr>
-    <td><code>--select-fs</code></td>
+    <td><code>--base-font-size</code></td>
     <td>base</td>
-    <td>15px</td>
+    <td>1em</td>
   </tr>
   <tr>
-    <td><code>--options-pad-y</code></td>
+    <td><code>--options-padding-block</code></td>
     <td>options</td>
-    <td>16px</td>
+    <td>0</td>
   </tr>
   <tr>
-    <td><code>--options-fs</code></td>
+    <td><code>--options-font-size</code></td>
     <td>options</td>
-    <td>18px</td>
+    <td>1em</td>
   </tr>
   <tr>
     <td><code>--options-max-display-items</code></td>
@@ -164,41 +161,54 @@ document.querySelector('custom-select')
     <td>5</td>
   </tr>
   <tr>
-    <td><code>--option-pad-y</code></td>
+    <td><code>--option-padding-block</code></td>
     <td>option</td>
-    <td>12px</td>
+    <td>0.5em</td>
   </tr>
   <tr>
     <td colspan="3" align="center">Colors</td>
   </tr>
   <tr>
-    <td><code>--select-border</code></td>
+    <td><code>--base-border-color</code></td>
     <td>base</td>
-    <td><code>var(--txt-primary, #fff)</code></td>
+    <td><code>black</code></td>
   </tr>
   <tr>
-    <td><code>--select-hover-border</code></td>
+    <td><code>--base-border-color-hover</code></td>
     <td>base</td>
-    <td><code>var(--txt-secondary, #c99a5b)</code></td>
+    <td><code>lightblue</code></td>
   </tr>
   <tr>
-    <td><code>--select-opened-border</code></td>
+    <td><code>--base-border-color-opened</code></td>
     <td>base, options</td>
-    <td><code>var(--txt-secondary, #c99a5b)</code></td>
+    <td><code>lightblue</code></td>
   </tr>
   <tr>
-    <td><code>--select-opened-bg</code></td>
+    <td><code>--base-background-color-opened</code></td>
     <td>base, options</td>
-    <td><code>var(--offWhiteBackground, #fafafa)</code></td>
+    <td><code>white</code></td>
   </tr>
   <tr>
-    <td><code>--select-opened-color</code></td>
+    <td><code>--base-color-opened</code></td>
     <td>base, options</td>
-    <td><code>var(--primary-background, #1c1a1b)</code></td>
+    <td><code>black</code></td>
   </tr>
   <tr>
-    <td><code>--option-hover-bg</code></td>
+    <td><code>--option-background-color-hover</code></td>
     <td>option</td>
-    <td><code>var(--txt-secondary, #c99a5b)</code></td>
+    <td><code>lightblue</code></td>
+  </tr>
+  <tr>
+    <td colspan="3" align="center">Other</td>
+  </tr>
+  <tr>
+    <td><code>--transition</code></td>
+    <td>base, icon, options, option</td>
+    <td><code>0.35s ease-in-out</code></td>
+  </tr>
+  <tr>
+    <td><code>--arrow-icon</code></td>
+    <td>icon</td>
+    <td><code>url('data:image/svg+xml, &lt;svg fill="none" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg&gt;')</code></td>
   </tr>
 </table>

@@ -52,23 +52,20 @@ customElements.define('custom-select', class customSelect extends HTMLElement {
 		}
 
 		let selectedValue = null;
-
-		const select = document.createElement('div');
-		select.setAttribute('part', 'select');
 		
 		const base = document.createElement('div');
 		base.setAttribute('part', 'base');
 		const placeholder = this.getAttribute('placeholder');
 		base.textContent = placeholder || '';
 		this.baseNode = base;
-		select.appendChild(base);
+		this.#shadowRoot.appendChild(base);
 
 		const optionsNodesVanilla = [...this.querySelectorAll('option')];
 
 		if (optionsNodesVanilla.length > 0) {
 			const options = document.createElement('ul');
 			options.setAttribute('part', 'options');
-			select.appendChild(options);
+			this.#shadowRoot.appendChild(options);
 
 			optionsNodesVanilla.forEach(optionNodeVanilla => {
 				const { value, textContent, selected } = optionNodeVanilla;
@@ -87,8 +84,6 @@ customElements.define('custom-select', class customSelect extends HTMLElement {
 				this.optionsNodes.push(option);
 			});
 		}
-
-		this.#shadowRoot.appendChild(select);
 
 		if (selectedValue) {
 			this.setAttribute('value', selectedValue);

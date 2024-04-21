@@ -7,65 +7,54 @@ custom-select {
 
 	&:hover {
 		&::part(base) {
-			border-color: var(--select-hover-border, lightblue);
+			border-color: var(--base-border-color-hover, lightblue);
 		}
 	}
 
 	&[opened] {
-		&::part(options) {
-			opacity: 1;
-			visibility: visible;
+		filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.15));
+
+		&::part(base) {
+			border-color: var(--base-border-color-opened, lightblue);
+			border-bottom-color: var(--base-background-color-opened, white);
+			background-color: var(--base-background-color-opened, white);
+			color: var(--base-color-opened, black);
 		}
 
 		&::part(base)::after {
 			rotate: 180deg;
 		}
-	}
-
-	&:focus-within,
-	&[opened] {
-		filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, .15));
-
-		&::part(base) {
-			border-color: var(--select-opened-border, lightblue);
-			border-bottom-color: var(--select-opened-bg, white);
-			background-color: var(--select-opened-bg, white);
-			color: var(--select-opened-color, black);
-		}
 
 		&::part(options) {
-			border-color: var(--select-opened-border, lightblue);
+			opacity: 1;
+			visibility: visible;
+			border-color: var(--base-border-color-opened, lightblue);
 			border-top: none;
-			background-color: var(--select-opened-bg, white);
-			color: var(--select-opened-color, black);
+			background-color: var(--base-background-color-opened, white);
+			color: var(--base-color-opened, black);
 		}
-	}
-
-	&::part(select) {
-		box-sizing: border-box;
-		position: relative;
 	}
 
 	&::part(base) {
 		box-sizing: border-box;
 		white-space: nowrap;
-		font-size: var(--select-fs, 1em);
+		font-size: var(--base-font-size, 1em);
 		font-weight: 500;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 		gap: 1em;
-		padding-inline: var(--select-pad-x, .5em);
-		height: var(--select-min-height, 2.5em);
+		padding-inline: var(--base-padding-inline, 0.5em);
+		height: var(--base-min-height, 2.5em);
 		cursor: pointer;
-		border-width: var(--select-border-w, 1px);
+		border-width: var(--base-border-width, 1px);
 		border-style: solid;
-		border-color: var(--select-border, black);
-		transition: all var(--tr-primary, .35s ease-in-out);
+		border-color: var(--base-border-color, black);
+		transition: all var(--transition, 0.35s ease-in-out);
 	}
 
 	&::part(base)::after {
-		width: var(--select-icon-w, 1em);
+		width: var(--base-icon-width, 1em);
 		height: 100%;
 		display: inline-flex;
 		content: '';
@@ -74,26 +63,26 @@ custom-select {
 		background-repeat: no-repeat;
 		background-size: contain;
 		transform-origin: center;
-		transition: rotate var(--tr-primary, .35s ease-in-out);
+		transition: rotate var(--transition, 0.35s ease-in-out);
 	}
 
 	&::part(options) {
-		font-size: var(--options-fs, 1em);
+		font-size: var(--options-font-size, 1em);
 		box-sizing: border-box;
 		margin: 0;
-		padding: var(--options-pad-y, 0) 0;
+		padding: var(--options-padding-block, 0) 0;
 		list-style: none;
 		position: absolute;
 		z-index: 15;
-		top: calc(100% - var(--select-border-w, 1px));
+		top: calc(100% - var(--base-border-width, 1px));
 		left: 0;
 		width: 100%;
-		border-width: var(--select-border-w, 1px);
+		border-width: var(--base-border-width, 1px);
 		border-style: solid;
-		max-height: calc(var(--options-pad-y, 0) * 2 + (var(--option-pad-y, .5em) * 2 + 1em) * var(--options-max-display-items, 5));
+		max-height: calc(var(--options-padding-block, 0) * 2 + (var(--option-padding-block, 0.5em) * 2 + 1em) * var(--options-max-display-items, 5));
 		overflow-y: auto;
 		scrollbar-color: var(--accent-primary, dimgray) transparent;
-		transition: all var(--tr-primary, .35s ease-in-out);
+		transition: all var(--transition, 0.35s ease-in-out);
 		opacity: 0;
 		visibility: hidden;
 	}
@@ -102,12 +91,12 @@ custom-select {
 		box-sizing: border-box;
 		display: block;
 		text-transform: capitalize;
-		padding: var(--option-pad-y, .5em) var(--select-pad-x, .5em);
+		padding: var(--option-padding-block, 0.5em) var(--base-padding-inline, 0.5em);
 		cursor: pointer;
-		transition: background-color var(--tr-primary, .35s ease-in-out);
+		transition: background-color var(--transition, 0.35s ease-in-out);
+	}
 
-		&:hover {
-			background-color: var(--option-hover-bg, lightblue);
-		}
+	&::part(option):hover {
+		background-color: var(--option-background-color-hover, lightblue);
 	}
 }
