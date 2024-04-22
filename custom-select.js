@@ -97,6 +97,11 @@ customElements.define('custom-select', class customSelect extends HTMLElement {
 
 	open() {
 		this.setAttribute('opened', '');
+		document.addEventListener(
+			'click', 
+			e => e.target !== this && this.close(), 
+			{ once: true }
+		);
 	}
 
 	close() {
@@ -111,9 +116,9 @@ customElements.define('custom-select', class customSelect extends HTMLElement {
 		}
 	}
 
-	/* eslint consistent-return: 0 */
-	// eslint consistent-return in Vanilla JS does not recognize exhaustive swtich statements
 	handleClick(event) {
+		event.stopPropagation();
+		
 		const el = event.originalTarget || event.composedPath()[0]; // Fix in Chrome - Event object does not have originalTarget and defaults to <custom-select> host element
 
 		switch (el.getAttribute('part')) {

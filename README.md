@@ -1,5 +1,7 @@
 # Todo
 
+1. Add CSS variable for drop-shadow
+1. Lean CSS as much as possible, remove extra stuff
 1. Create leaned single-file version with CSS-in-JS 
     - It should not use CSS variables, but only default values
     - ? It should be extendable in-place with CSS classes or similar
