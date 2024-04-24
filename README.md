@@ -117,7 +117,7 @@ customSelect.toggle();
 
 ### Subscribe to events
 
-#### change
+#### ◾ change
 
 <code>&lt;custom-select&gt;</code> emits its own `change` event, but you can add more custom events.
 
@@ -151,9 +151,9 @@ customSelect.addEventListener('change', e => console.log('changed'));
 
 <table>
   <tr>
-    <th width="60%">CSS variable</th>
-    <th width="20%">Affected parts</th>
-    <th width="20%">Default value</th>
+    <th width="280">CSS variable</th>
+    <th width="280">Affected parts</th>
+    <th width="280">Default value</th>
   </tr>
   <tr>
     <td><code>--base-min-height</code></td>
@@ -206,11 +206,11 @@ customSelect.addEventListener('change', e => console.log('changed'));
 
 <table>
   <tr>
-    <th width="60%">CSS variable</th>
-    <th width="20%">Affected parts</th>
-    <th width="20%">Default value</th>
+    <th width="280">CSS variable</th>
+    <th width="280">Affected parts</th>
+    <th width="280">Default value</th>
   </tr>
-<tr>
+  <tr>
     <td><code>--base-border-color</code></td>
     <td>base</td>
     <td><code>black</code></td>
@@ -245,6 +245,11 @@ customSelect.addEventListener('change', e => console.log('changed'));
 ### Other
 
 <table>
+  <tr>
+    <th width="280">CSS variable</th>
+    <th width="280">Affected parts</th>
+    <th width="280">Default value</th>
+  </tr>
   <tr>
     <td><code>--transition</code></td>
     <td>base, icon, options, option</td>
