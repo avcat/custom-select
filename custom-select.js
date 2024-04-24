@@ -3,21 +3,31 @@ customElements.define('custom-select', class customSelect extends HTMLElement {
 	static observedAttributes = ['value'];
 	#internals;
 	#shadowRoot;
+	#options;
 
 	constructor() {
 		super();
 		this.#internals = this.attachInternals();
 		this.#shadowRoot = this.attachShadow({ mode: 'open' });
-		this.optionsNodes = [];
+		this.#options = [];
+	}
+
+	connectedCallback() {
+		this.#renderOnce();
+		this.addEventListener('click', this.#handleClick);
+	}
+
+	disconnectedCallback() {
+		this.removeEventListener('click', this.#handleClick);
 	}
 
 	attributeChangedCallback(name, oldValue, newValue) {
 		this.#internals.setFormValue(newValue);
-		this.emit('change', newValue);
-		this.updateComponent(newValue);
+		this.#emit('change', newValue);
+		this.#updateComponent(newValue);
 	}
 
-	emit(type, value) {
+	#emit(type, value) {
 		const event = new CustomEvent(type, {
 			bubbles: true,
 			cancelable: true,
@@ -26,25 +36,20 @@ customElements.define('custom-select', class customSelect extends HTMLElement {
 		return this.dispatchEvent(event);
 	}
 
-	connectedCallback() {
-		this.renderOnce();
-		this.addEventListener('click', this.handleClick);
-	}
-
-	updateComponent(newValue) {
-		const newCurrentOptionNode = this.optionsNodes.find(option => option.getAttribute('value') === newValue);
+	#updateComponent(newValue) {
+		const newCurrentOption = this.#options.find(option => option.value === newValue);
 		
-		if (!newCurrentOptionNode) {
+		if (!newCurrentOption) {
 			return;
 		}
 
-		this.optionsNodes.forEach(optionNode => optionNode.removeAttribute('selected'));
-		newCurrentOptionNode.setAttribute('selected', '');
+		this.#options.forEach(option => option.node.removeAttribute('selected'));
+		newCurrentOption.node.setAttribute('selected', '');
 
-		this.baseNode.textContent = newCurrentOptionNode.textContent;
+		this.baseNode.textContent = newCurrentOption.node.textContent;
 	}
 
-	renderOnce() {
+	#renderOnce() {
 		let selectedValue = null;
 		
 		const base = document.createElement('div');
@@ -79,7 +84,10 @@ customElements.define('custom-select', class customSelect extends HTMLElement {
 				}
 
 				options.appendChild(option);
-				this.optionsNodes.push(option);
+				this.#options.push({
+					value,
+					node: option,
+				});
 			});
 		}
 
@@ -92,6 +100,24 @@ customElements.define('custom-select', class customSelect extends HTMLElement {
 				|| optionsNodesVanilla[0].textContent
 			);
 			optionsNodesVanilla[0].setAttribute('selected', '');
+		}
+	}
+
+	#handleClick(event) {
+		event.stopPropagation();
+		
+		const el = event.originalTarget || event.composedPath()[0]; // Fix in Chrome - Event object does not have originalTarget and defaults to <custom-select> host element
+
+		switch (el.getAttribute('part')) {
+			case 'option': {
+				this.setAttribute('value', el.getAttribute('value'));
+				return this.close();
+			}
+			case 'base': {
+				return this.toggle();
+			}
+			default:
+				return;
 		}
 	}
 
@@ -116,25 +142,17 @@ customElements.define('custom-select', class customSelect extends HTMLElement {
 		}
 	}
 
-	handleClick(event) {
-		event.stopPropagation();
-		
-		const el = event.originalTarget || event.composedPath()[0]; // Fix in Chrome - Event object does not have originalTarget and defaults to <custom-select> host element
-
-		switch (el.getAttribute('part')) {
-			case 'option': {
-				this.setAttribute('value', el.getAttribute('value'));
-				return this.close();
-			}
-			case 'base': {
-				return this.toggle();
-			}
-			default:
-				return;
-		}
+	get value() {
+		return this.getAttribute('value');
 	}
 
-	disconnectedCallback() {
-		this.removeEventListener('click', this.handleClick);
+	set value(newValue) {
+		const newCurrentOption = this.#options.find(option => option.value === newValue.toString());
+
+		if (!newCurrentOption) {
+			return;
+		}
+
+		this.setAttribute('value', newValue);
 	}
 });

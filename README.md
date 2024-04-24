@@ -11,7 +11,7 @@
 
 # <code>&lt;custom-select&gt;</code>
 
-## Add to project
+# Add to project
 
 [The Web Component class](/custom-select.js)
 ```js
@@ -25,18 +25,20 @@ import 'custom-select.js';
 @import 'custom-select.css';
 ```
 
-## Use
+# Use
+
+## HTML
 
 Replace `<select>` HTML elements with `<custom-select>`:
 ```html
-// Before
+<!-- Before -->
 <select name="..." placeholder="...">
   <option value="..." selected>...</option>
   <option value="...">...</option>
   <option value="...">...</option>
 </select>
 
-// After
+<!-- After -->
 <custom-select name="..." placeholder="...">
   <option value="..." selected>...</option>
   <option value="...">...</option>
@@ -79,19 +81,52 @@ Replace `<select>` HTML elements with `<custom-select>`:
   </tr>
 </table>
 
-## Subscribe to events
+## JS
+
+### Use public methods
+
+#### ◾ value (_getter_)
+
+Shows current selected value, `null` if no option is selected.
+
+```js
+const customSelect = document.querySelector('custom-select');
+console.log(customSelect.value); // 42
+```
+
+#### ◾ value (_setter_)
+
+Set an option with that value as selected. Numbers are treated as strings.
+
+```js
+const customSelect = document.querySelector('custom-select');
+customSelect.value = '42';
+console.log(customSelect.value); // 42
+```
+
+#### ◾ open / close / toggle
+
+Shows or hides the option list.
+
+```js
+const customSelect = document.querySelector('custom-select');
+customSelect.open();
+customSelect.close();
+customSelect.toggle();
+```
+
+### Subscribe to events
+
+#### change
 
 <code>&lt;custom-select&gt;</code> emits its own `change` event, but you can add more custom events.
 
 ```js
-document.querySelector('custom-select')
-  .addEventListener(
-    'change', 
-    e => console.log('custom select changed', e)
-  );
+const customSelect = document.querySelector('custom-select');
+customSelect.addEventListener('change', e => console.log('changed'));
 ```
 
-## Customize
+## CSS
 
 - `custom-select.css` can be fully customized
 - to be able to **affect a Web Component with external stylesheet**, we use `::part(part-name)` [syntax](https://webcomponents.guide/learn/components/styling/#parts-styling-a-shadow-tree-from-the-outside)
@@ -112,14 +147,13 @@ document.querySelector('custom-select')
 </custom-select>
 ```
 
+### Sizes
+
 <table>
   <tr>
     <th width="60%">CSS variable</th>
     <th width="20%">Affected parts</th>
     <th width="20%">Default value</th>
-  </tr>
-  <tr>
-    <td colspan="3" align="center">Sizes</td>
   </tr>
   <tr>
     <td><code>--base-min-height</code></td>
@@ -166,10 +200,17 @@ document.querySelector('custom-select')
     <td>option</td>
     <td>0.5em</td>
   </tr>
+</table>
+
+### Colors
+
+<table>
   <tr>
-    <td colspan="3" align="center">Colors</td>
+    <th width="60%">CSS variable</th>
+    <th width="20%">Affected parts</th>
+    <th width="20%">Default value</th>
   </tr>
-  <tr>
+<tr>
     <td><code>--base-border-color</code></td>
     <td>base</td>
     <td><code>black</code></td>
@@ -199,9 +240,11 @@ document.querySelector('custom-select')
     <td>option</td>
     <td><code>lightblue</code></td>
   </tr>
-  <tr>
-    <td colspan="3" align="center">Other</td>
-  </tr>
+</table>
+
+### Other
+
+<table>
   <tr>
     <td><code>--transition</code></td>
     <td>base, icon, options, option</td>
