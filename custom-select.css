@@ -9,7 +9,7 @@ custom-select {
 	}
 
 	&[opened] {
-		filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.15));
+		filter: drop-shadow(var(--base-shadow-opened, 0px 2px 4px rgba(0 0 0 / 0.15)));
 
 		&::part(base) {
 			border-color: var(--base-border-color-opened, lightblue);

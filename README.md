@@ -1,6 +1,5 @@
 # Todo
 
-1. Add CSS variable for drop-shadow
 1. Lean CSS as much as possible, remove extra stuff
 1. Create leaned single-file version with CSS-in-JS 
     - It should not use CSS variables, but only default values
@@ -151,9 +150,9 @@ customSelect.addEventListener('change', e => console.log('changed'));
 
 <table>
   <tr>
-    <th width="280">CSS variable</th>
-    <th width="280">Affected parts</th>
-    <th width="280">Default value</th>
+    <th width="300">CSS variable</th>
+    <th width="265">Affected parts</th>
+    <th width="265">Default value</th>
   </tr>
   <tr>
     <td><code>--base-min-height</code></td>
@@ -206,9 +205,9 @@ customSelect.addEventListener('change', e => console.log('changed'));
 
 <table>
   <tr>
-    <th width="280">CSS variable</th>
-    <th width="280">Affected parts</th>
-    <th width="280">Default value</th>
+    <th width="300">CSS variable</th>
+    <th width="265">Affected parts</th>
+    <th width="265">Default value</th>
   </tr>
   <tr>
     <td><code>--base-border-color</code></td>
@@ -246,9 +245,14 @@ customSelect.addEventListener('change', e => console.log('changed'));
 
 <table>
   <tr>
-    <th width="280">CSS variable</th>
-    <th width="280">Affected parts</th>
-    <th width="280">Default value</th>
+    <th width="300">CSS variable</th>
+    <th width="265">Affected parts</th>
+    <th width="265">Default value</th>
+  </tr>
+  <tr>
+    <td><code>--base-shadow-opened</code></td>
+    <td>select</td>
+    <td><code>0px 2px 4px rgba(0 0 0 / 0.15)</code></td>
   </tr>
   <tr>
     <td><code>--transition</code></td>
