@@ -1,6 +1,6 @@
 custom-select {
-	box-sizing: border-box;
 	user-select: none;
+	transition: filter var(--transition, 0.35s ease-in-out);
 
 	&:hover {
 		&::part(base) {
@@ -45,7 +45,7 @@ custom-select {
 		border-style: solid;
 		border-color: var(--base-border-color, black);
 		cursor: pointer;
-		transition: all var(--transition, 0.35s ease-in-out);
+		transition: border-color var(--transition, 0.35s ease-in-out), background-color var(--transition, 0.35s ease-in-out);
 	}
 
 	&::part(base)::after {
@@ -66,7 +66,6 @@ custom-select {
 	}
 
 	&::part(options) {
-		box-sizing: border-box;
 		margin: 0;
 		list-style: none;
 		font-size: var(--options-font-size, 1em);
@@ -81,15 +80,13 @@ custom-select {
 				+ var(--single-option-height, 2em) 
 				* var(--options-max-display-items, 5)
 			);
-		overflow-y: auto;
+		overflow-y: auto;	
 		transition: all var(--transition, 0.35s ease-in-out);
 		opacity: 0;
 		visibility: hidden;
 	}
 
 	&::part(option) {
-		box-sizing: border-box;
-		display: block;
 		padding: var(--option-padding-block, 0.5em) var(--base-padding-inline, 0.5em);
 		cursor: pointer;
 		transition: background-color var(--transition, 0.35s ease-in-out);

@@ -1,12 +1,13 @@
 # Todo
 
-1. Lean CSS as much as possible, remove extra stuff
 1. Create leaned single-file version with CSS-in-JS 
     - It should not use CSS variables, but only default values
     - ? It should be extendable in-place with CSS classes or similar
 1. Make it possible to link files to a project by external links
 1. Add nicer previews and demos with links to code or the code itself (<code>&lt;details&gt;</code> or whatever)
+1. Add nicer colors
 1. Add Quick Links at the start of Readme
+1. Add animation of changing option
 
 # <code>&lt;custom-select&gt;</code>
 
