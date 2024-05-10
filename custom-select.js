@@ -1,9 +1,15 @@
-customElements.define('custom-select', class customSelect extends HTMLElement {
+class CustomSelect extends HTMLElement {
 	static formAssociated = true;
 	static observedAttributes = ['value'];
 	#internals;
 	#shadowRoot;
 	#options;
+
+	static define(tag = 'custom-select') {
+		if (!customElements.get(tag)) {
+			customElements.define(tag, this);
+		}
+	}
 
 	constructor() {
 		super();
@@ -70,6 +76,8 @@ customElements.define('custom-select', class customSelect extends HTMLElement {
 			options.setAttribute('part', 'options');
 			optionsWrapper.appendChild(options);
 
+			const fragmentOptions = document.createDocumentFragment();
+
 			optionsNodesVanilla.forEach(optionNodeVanilla => {
 				const { value, textContent, selected } = optionNodeVanilla;
 
@@ -83,12 +91,15 @@ customElements.define('custom-select', class customSelect extends HTMLElement {
 					selectedValue = value;
 				}
 
-				options.appendChild(option);
+				fragmentOptions.appendChild(option);
+				
 				this.#options.push({
 					value,
 					node: option,
 				});
 			});
+
+			options.appendChild(fragmentOptions);
 		}
 
 		if (selectedValue) {
@@ -155,4 +166,6 @@ customElements.define('custom-select', class customSelect extends HTMLElement {
 
 		this.setAttribute('value', newValue);
 	}
-});
+}
+
+CustomSelect.define();
