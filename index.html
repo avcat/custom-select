@@ -8,34 +8,38 @@
     <script src="./custom-select.js" defer></script>
 </head>
 <body>
-    <h2>Default (no <code>placeholder</code>, no <code>selected</code>)</h2>
-    <custom-select>
-        <option value="python">Python</option>
-        <option value="javascript">JavaScript</option>
-        <option value="java">Java</option>
-        <option value="c#">C#</option>
-        <option value="c++">C++</option>
-        <option value="typescript">TypeScript</option>
-    </custom-select>
+    <form>
+        <h2>Default (no <code>placeholder</code>, no <code>selected</code>)</h2>
+        <custom-select name="programming-language-1">
+            <option value="python">Python</option>
+            <option value="javascript">JavaScript</option>
+            <option value="java">Java</option>
+            <option value="c#">C#</option>
+            <option value="c++">C++</option>
+            <option value="typescript">TypeScript</option>
+        </custom-select>
 
-    <h2>With <code>placeholder</code> value</h2>
-    <custom-select placeholder="Placeholder">
-        <option value="python">Python</option>
-        <option value="javascript">JavaScript</option>
-        <option value="java">Java</option>
-        <option value="c#">C#</option>
-        <option value="c++">C++</option>
-        <option value="typescript">TypeScript</option>
-    </custom-select>
+        <h2>With <code>placeholder</code> value</h2>
+        <custom-select name="programming-language-2" placeholder="Placeholder">
+            <option value="python">Python</option>
+            <option value="javascript">JavaScript</option>
+            <option value="java">Java</option>
+            <option value="c#">C#</option>
+            <option value="c++">C++</option>
+            <option value="typescript">TypeScript</option>
+        </custom-select>
 
-    <h2>With <code>selected</code> value</h2>
-    <custom-select>
-        <option value="python">Python</option>
-        <option value="javascript" selected>JavaScript</option>
-        <option value="java">Java</option>
-        <option value="c#">C#</option>
-        <option value="c++">C++</option>
-        <option value="typescript">TypeScript</option>
-    </custom-select>
+        <h2>With <code>selected</code> value</h2>
+        <custom-select name="programming-language-3">
+            <option value="python">Python</option>
+            <option value="javascript" selected>JavaScript</option>
+            <option value="java">Java</option>
+            <option value="c#">C#</option>
+            <option value="c++">C++</option>
+            <option value="typescript">TypeScript</option>
+        </custom-select>
+    </form>
+    
+    <button onclick="console.table([...new FormData(document.querySelector('form'))])">new FormData</button>
 </body>
 </html>

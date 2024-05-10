@@ -121,14 +121,15 @@ class CustomSelect extends HTMLElement {
 
 		switch (el.getAttribute('part')) {
 			case 'option': {
-				this.setAttribute('value', el.getAttribute('value'));
+				this.value = el.getAttribute('value');
 				return this.opened = false;
 			}
 			case 'base': {
 				return this.toggle();
 			}
-			default:
+			default: {
 				return;
+			}
 		}
 	}
 
