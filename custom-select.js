@@ -122,7 +122,7 @@ class CustomSelect extends HTMLElement {
 		switch (el.getAttribute('part')) {
 			case 'option': {
 				this.setAttribute('value', el.getAttribute('value'));
-				return this.close();
+				return this.opened = false;
 			}
 			case 'base': {
 				return this.toggle();
@@ -132,25 +132,30 @@ class CustomSelect extends HTMLElement {
 		}
 	}
 
-	open() {
-		this.setAttribute('opened', '');
-		document.addEventListener(
-			'click', 
-			e => e.target !== this && this.close(), 
-			{ once: true }
-		);
+	get opened() {
+		return this.hasAttribute('opened');
 	}
 
-	close() {
+	set opened(state = true) {
+		if (state) {
+			 this.setAttribute('opened', '');
+
+			 return document.addEventListener(
+				'click', 
+				e => e.target !== this && (this.opened = false), 
+				{ once: true }
+			);
+		}
+		
 		this.removeAttribute('opened');
 	}
 
 	toggle() {
-		if (this.hasAttribute('opened')) {
-			this.close();
-		} else {
-			this.open();
+		if (this.opened) {
+			return this.opened = false;
 		}
+		
+		this.opened = true;
 	}
 
 	get value() {
