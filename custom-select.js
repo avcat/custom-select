@@ -1,11 +1,39 @@
 // @ts-check
 
-/** Class representing a custom select element - an autonomous web component. */
+/**
+ * `CustomSelect` is a web component that represents an autonomous web component.
+ *
+ * @class CustomSelect
+ * @extends {HTMLElement}
+ */
 class CustomSelect extends HTMLElement {
+	/**
+   * Indicates if the element is form-associated so it can be utilized by f.e. FormData.
+	 * @see {@link https://html.spec.whatwg.org/dev/custom-elements.html#custom-elements-face-example|WhatWG documentation on "Creating a form-associated custom element".}
+   *
+   * @static
+   * @type {boolean}
+   */
 	static formAssociated = true;
+
+	/**
+   * Observed attributes for the CustomSelect component.
+   *
+   * @static
+   * @type {string[]}
+   */
 	static observedAttributes = ['value'];
+
+	
 	#internals;
 	#shadowRoot;
+
+	/**
+   * The options available in the CustomSelect component.
+	 * 
+   * @property {options}
+	 * @type {Array}
+   */
 	#options;
 
 	static define(tag = 'custom-select') {
@@ -14,6 +42,11 @@ class CustomSelect extends HTMLElement {
 		}
 	}
 
+	/**
+   * Creates an instance of CustomSelect.
+   * 
+   * @constructor
+   */
 	constructor() {
 		super();
 		this.#internals = this.attachInternals();
@@ -136,11 +169,23 @@ class CustomSelect extends HTMLElement {
 		}
 	}
 
+	/**
+	 * Gets the `opened` state of the `CustomSelect` component.
+	 * @return {boolean} The `opened` state.
+	 */
 	get opened() {
 		return this.hasAttribute('opened');
 	}
 
+	/**
+   * Sets the `opened` state of the `CustomSelect` component.
+   * @param {boolean} state The new opened state.
+   */
 	set opened(state) {
+		if (typeof state !== 'boolean') {
+      throw new TypeError('new state must be a boolean');
+    }
+
 		if (state) {
 			 this.setAttribute('opened', '');
 
@@ -154,26 +199,44 @@ class CustomSelect extends HTMLElement {
 		}
 	}
 
+	/**
+	 * Toggle `opened` state of the custom select.
+	 * @return {boolean} New `opened` state after toggle.
+	 */
 	toggle() {
 		if (this.opened) {
-			return this.opened = false;
+			this.opened = false;
+		} else {
+			this.opened = true;
 		}
 		
-		this.opened = true;
+		return this.opened;
 	}
 
+	/**
+	 * Gets the `value` of the `CustomSelect` component.
+	 * @return {string} The `value` of the `CustomSelect` component.
+	 */
 	get value() {
 		return this.getAttribute('value');
 	}
 
+	/**
+   * _Suggests_ the new `value` state for the `CustomSelect` component.
+	 * The new value will be applied if the `CustomSelect` included an
+	 * option with this value when it was firstly initialized.
+	 * `newValue` is converted to string.
+   * @param {number|string} newValue The new _possible_ state.
+   */
 	set value(newValue) {
-		const newCurrentOption = this.#options.find(option => option.value === newValue.toString());
+		const newValueConverted = newValue.toString();
+		const newCurrentOption = this.#options.find(option => option.value === newValueConverted);
 
 		if (!newCurrentOption) {
 			return;
 		}
 
-		this.setAttribute('value', newValue);
+		this.setAttribute('value', newValueConverted);
 	}
 }
 
