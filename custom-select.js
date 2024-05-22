@@ -1,3 +1,6 @@
+// @ts-check
+
+/** Class representing a custom select element - an autonomous web component. */
 class CustomSelect extends HTMLElement {
 	static formAssociated = true;
 	static observedAttributes = ['value'];
@@ -137,18 +140,18 @@ class CustomSelect extends HTMLElement {
 		return this.hasAttribute('opened');
 	}
 
-	set opened(state = true) {
+	set opened(state) {
 		if (state) {
 			 this.setAttribute('opened', '');
 
-			 return document.addEventListener(
+			 document.addEventListener(
 				'click', 
 				e => e.target !== this && (this.opened = false), 
 				{ once: true }
 			);
+		} else {
+			this.removeAttribute('opened');
 		}
-		
-		this.removeAttribute('opened');
 	}
 
 	toggle() {
