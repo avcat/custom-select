@@ -2,7 +2,6 @@
 
 /**
  * `CustomSelect` is a web component that represents an autonomous web component.
- *
  * @class CustomSelect
  * @extends {HTMLElement}
  */
@@ -10,7 +9,6 @@ class CustomSelect extends HTMLElement {
 	/**
    * Indicates if the element is form-associated so it can be utilized by f.e. FormData.
 	 * @see {@link https://html.spec.whatwg.org/dev/custom-elements.html#custom-elements-face-example|WhatWG documentation on "Creating a form-associated custom element".}
-   *
    * @static
    * @type {boolean}
    */
@@ -18,24 +16,40 @@ class CustomSelect extends HTMLElement {
 
 	/**
    * Observed attributes for the CustomSelect component.
-   *
    * @static
    * @type {string[]}
    */
 	static observedAttributes = ['value'];
 
-	
+	/**
+	 * This private property is used to store an [ElementInternals](https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals) object.
+	 * ElementInternals adds the capability for custom elements to participate in a form submission.
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/attachInternals|attachInternals() on MDN.}
+	 * @type {undefined | ElementInternals}
+	 */
 	#internals;
+
+	/**
+	 * This private property is used to store the reference to the element's [ShadowRoot](https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot).
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/Element/attachShadow|attachShadow() on MDN.}
+	 * @type {undefined | ShadowRoot}
+	 */
 	#shadowRoot;
 
 	/**
-   * The options available in the CustomSelect component.
-	 * 
-   * @property {options}
-	 * @type {Array}
+   * This private property is used to store the options, that will be available to choose and used to validate chosen values.
+	 * @type {undefined | Array | Array.<{value: String, node: HTMLLIElement}>}
    */
 	#options;
 
+	/**
+	 * This static property can be used to define a custom HTML tag for this Web Component.
+	 * It is useful for avoiding possible name conflicts.
+	 * @static
+	 * @param {string} [tag='custom-select'] tag
+	 * @default 'custom-select'
+	 * @returns {void}
+	 */
 	static define(tag = 'custom-select') {
 		if (!customElements.get(tag)) {
 			customElements.define(tag, this);
@@ -44,7 +58,6 @@ class CustomSelect extends HTMLElement {
 
 	/**
    * Creates an instance of CustomSelect.
-   * 
    * @constructor
    */
 	constructor() {
@@ -54,11 +67,23 @@ class CustomSelect extends HTMLElement {
 		this.#options = [];
 	}
 
+	/**
+	 * Lifecycle callback. Called each time the element is added to the document.
+	 * Used for the first render and to add event listeners to the element.
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements|Using custom elements on MDN.}
+	 * @return {void}
+	 */
 	connectedCallback() {
 		this.#renderOnce();
 		this.addEventListener('click', this.#handleClick);
 	}
 
+	/**
+	 * Lifecycle callback. Called each time the element is removed from the document.
+	 * Used to remove event listeners from the element.
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements|Using custom elements on MDN.}
+	 * @return {void}
+	 */
 	disconnectedCallback() {
 		this.removeEventListener('click', this.#handleClick);
 	}
