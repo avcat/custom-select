@@ -25,6 +25,7 @@ class CustomSelect extends HTMLElement {
 	 * This private property is used to store an [ElementInternals](https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals) object.
 	 * ElementInternals adds the capability for custom elements to participate in a form submission.
 	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/attachInternals|attachInternals() on MDN.}
+	 * @access private
 	 * @type {undefined | ElementInternals}
 	 */
 	#internals;
@@ -32,15 +33,24 @@ class CustomSelect extends HTMLElement {
 	/**
 	 * This private property is used to store the reference to the element's [ShadowRoot](https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot).
 	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/Element/attachShadow|attachShadow() on MDN.}
+	 * @access private
 	 * @type {undefined | ShadowRoot}
 	 */
 	#shadowRoot;
 
 	/**
    * This private property is used to store the options, that will be available to choose and used to validate chosen values.
+	 * @access private
 	 * @type {undefined | Array | Array.<{value: String, node: HTMLLIElement}>}
    */
 	#options;
+
+	/**
+	 * Represents the base part of the `CustomSelect`, that shows the chosen value.
+	 * @access private
+	 * @type {HTMLDivElement | null}
+	 */
+	#baseNode;
 
 	/**
 	 * This static property can be used to define a custom HTML tag for this Web Component.
@@ -88,22 +98,48 @@ class CustomSelect extends HTMLElement {
 		this.removeEventListener('click', this.#handleClick);
 	}
 
+	/**
+	 * Lifecycle callback. Called each time when attributes are changed, added, removed, or replaced.
+	 * Used to update form value, emit events and update the UI.
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements|Using custom elements on MDN.}
+	 * @param {string} name The name of the attribute which changed.
+	 * @param {string} oldValue The attribute's old value.
+	 * @param {string} newValue The attribute's new value.
+	 * @return {void}
+	 */
 	attributeChangedCallback(name, oldValue, newValue) {
 		this.#internals.setFormValue(newValue);
 		this.#emit('change', newValue);
 		this.#updateComponent(newValue);
 	}
 
+	/**
+	 * Creates a [CustomEvent](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent) with provided type and value and dispatches it.
+	 * @param {string} type Name of the event to emit.
+	 * @param {*} value Event payload.
+	 * @returns {CustomEvent} Custom event.
+	 */
 	#emit(type, value) {
-		const event = new CustomEvent(type, {
+		const eventOptions = {
 			bubbles: true,
 			cancelable: true,
 			detail: value,
-		});
-		return this.dispatchEvent(event);
+		};
+		const event = new CustomEvent(type, eventOptions);
+		this.dispatchEvent(event);
+		return event;
 	}
 
+	/**
+	 * Method that tries to change the element value updates the UI. Runs every time any of the attributes is changed.
+	 * If `newValue` is found among the element options, the value and the UI will be changed.
+	 * @param {string | number} newValue 
+	 * @returns {void}
+	 */
 	#updateComponent(newValue) {
+		/**
+		 * @type {{value: String, node: HTMLLIElement} | undefined}
+		 */
 		const newCurrentOption = this.#options.find(option => option.value === newValue);
 		
 		if (!newCurrentOption) {
@@ -113,17 +149,24 @@ class CustomSelect extends HTMLElement {
 		this.#options.forEach(option => option.node.removeAttribute('selected'));
 		newCurrentOption.node.setAttribute('selected', '');
 
-		this.baseNode.textContent = newCurrentOption.node.textContent;
+		this.#baseNode.textContent = newCurrentOption.node.textContent;
 	}
 
+	/**
+	 * Used to gather data from the HTML and do first render of the element after `connectedCallback`.
+	 * Sets up the `#baseNode`, `#options`, and the default selected option (if there is one), 
+	 */
 	#renderOnce() {
+		/**
+		 * @type {null | string}
+		 */
 		let selectedValue = null;
 		
 		const base = document.createElement('div');
 		base.setAttribute('part', 'base');
 		const placeholder = this.getAttribute('placeholder');
 		base.textContent = placeholder || '';
-		this.baseNode = base;
+		this.#baseNode = base;
 		this.#shadowRoot.appendChild(base);
 
 		const optionsNodesVanilla = [...this.querySelectorAll('option')];
