@@ -248,9 +248,6 @@ class CustomSelect extends HTMLElement {
 			return;
 		}
 
-		if (el instanceof HTMLElement)
-		console.info(el, el.getAttribute('part'))
-
 		switch (el.getAttribute('part')) {
 			case 'option': {
 				this.value = el.getAttribute('value');
