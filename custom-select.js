@@ -85,6 +85,12 @@ class CustomSelect extends HTMLElement {
 	 */
 	connectedCallback() {
 		this.#renderOnce();
+
+		/**
+		 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/Document/adoptedStyleSheets}
+		 * @type {Array<CSSStyleSheet>}
+		 */
+		this.#shadowRoot.adoptedStyleSheets = [addStyles()];
 		this.addEventListener('click', this.#handleClick);
 	}
 
@@ -218,21 +224,45 @@ class CustomSelect extends HTMLElement {
 		}
 	}
 
+	/**
+	 * Toggles the custom select and changes its value.
+	 * @param {Event} event 
+	 * @returns {void}
+	 */
 	#handleClick(event) {
 		event.stopPropagation();
 		
-		const el = event.originalTarget || event.composedPath()[0]; // Fix in Chrome - Event object does not have originalTarget and defaults to <custom-select> host element
+		/**
+		 * `composedPath` is something that will work in both Chrome and Firefox.
+		 * With `event.target` defaults to the <custom-select> host element.
+		 * Another alternative is to use [originalTarget](https://developer.mozilla.org/en-US/docs/Web/API/Event/originalTarget).
+		 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/Event/composedPath}
+		 * @type {EventTarget}
+		 */
+		const el = event.composedPath()[0];
+
+		/**
+		 * Emulates a generic `EventTarget as HTMLElement`.
+		 */
+		if (!(el instanceof HTMLElement)) {
+			return;
+		}
+
+		if (el instanceof HTMLElement)
+		console.info(el, el.getAttribute('part'))
 
 		switch (el.getAttribute('part')) {
 			case 'option': {
 				this.value = el.getAttribute('value');
-				return this.opened = false;
+				this.opened = false;
+				break;
 			}
 			case 'base': {
-				return this.toggle();
+				this.toggle();
+				break;
 			}
 			default: {
-				return;
+				break;
 			}
 		}
 	}
@@ -309,3 +339,134 @@ class CustomSelect extends HTMLElement {
 }
 
 CustomSelect.define();
+
+/**
+ * Returns the styles for the web component.
+ * @returns {CSSStyleSheet}
+ */
+function addStyles() {
+	const stylesheet = new CSSStyleSheet();
+
+	/**
+	 * @see {@link https://webcomponents.guide/learn/components/styling/#using-constructable-stylesheets}
+	 */
+	const styles = css`
+		:host {
+			user-select: none;
+			position: relative;
+			transition: filter var(--tr-primary, .35s ease-in-out);
+
+			&:hover {
+
+				&::part(base) {
+					border-color: var(--base-border-color-hover, lightblue);
+				}
+			}
+
+			&[opened] {
+				z-index: 10;
+				filter: drop-shadow(var(--base-shadow-opened, 0px 2px 4px rgba(0 0 0 / .15)));
+
+				&::part(base) {
+					border-color: var(--base-border-color-opened, lightblue);
+					border-bottom-color: var(--base-background-color-opened, white);
+					background-color: var(--base-background-color-opened, white);
+					color: var(--base-color-opened, black);
+				}
+
+				&::part(base)::after {
+					rotate: 180deg;
+				}
+
+				&::part(options) {
+					opacity: 1;
+					visibility: visible;
+					border-color: var(--base-border-color-opened, lightblue);
+					border-top: none;
+					background-color: var(--base-background-color-opened, white);
+					color: var(--base-color-opened, black);
+				}
+			}
+
+			&::part(base) {
+				box-sizing: border-box;
+				font-size: var(--base-font-size, 1em);
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: var(--base-icon-gap, 1em);
+				padding-inline: var(--base-padding-inline, .5em);
+				height: var(--base-min-height, 2.5em);
+				border-width: var(--base-border-width, 1px);
+				border-style: solid;
+				border-color: var(--base-border-color, black);
+				white-space: nowrap;
+				cursor: pointer;
+				transition: border-color var(--tr-primary, .35s ease-in-out), background-color var(--tr-primary, .35s ease-in-out);
+			}
+
+			&::part(base)::after {
+				display: inline-block;
+				content: '';
+				height: 100%;
+				width: var(--base-icon-width, 1em);
+				background-image: var(--arrow-icon, url('data:image/svg+xml, <svg fill="none" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>'));
+				background-position: center;
+				background-repeat: no-repeat;
+				background-size: contain;
+				transform-origin: center;
+				transition: rotate var(--tr-primary, .35s ease-in-out);
+			}
+
+			&::part(options-wrapper) {
+				height: 0;
+			}
+
+			&::part(options) {
+				margin: 0;
+				list-style: none;
+				font-size: var(--options-font-size, 1em);
+				padding: var(--options-padding-block, 0) 0;
+				border-width: var(--base-border-width, 1px);
+				border-style: solid;
+				scrollbar-color: var(--accent-primary, dimgray) transparent;
+				--single-option-height: calc(var(--option-padding-block, .5em) * 2 + 1lh);
+				max-height:
+					calc(
+						var(--options-padding-block, 0em) * 2
+						+ var(--single-option-height, 2em)
+						* var(--options-max-display-items, 5)
+					);
+				overflow-y: auto;
+				transition: all var(--tr-primary, .35s ease-in-out);
+				opacity: 0;
+				visibility: hidden;
+			}
+
+			&::part(option) {
+				padding-block: var(--option-padding-block, .5em);
+				padding-inline: var(--base-padding-inline, .5em) calc(var(--base-padding-inline, .5em) + var(--base-icon-width, 1em) + var(--base-icon-gap, 1em));
+				cursor: pointer;
+				transition: background-color var(--tr-primary, .35s ease-in-out);
+			}
+
+			&::part(option):hover {
+				background-color: var(--option-background-color-hover, lightblue);
+			}
+		}
+	`;
+
+	stylesheet.replaceSync(styles);
+
+	return stylesheet;
+}
+
+/**
+ * Adds CSS syntax highlight together with the extension [vscode-styled-components](https://marketplace.visualstudio.com/items?itemName=styled-components.vscode-styled-components).
+ * @param {TemplateStringsArray} strings 
+ * @param  {...string} values 
+ * @returns {string}
+ */
+function css(strings, ...values) {
+	return strings.raw.join('');
+}

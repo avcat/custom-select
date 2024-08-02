@@ -8,12 +8,6 @@
 import 'custom-select.js';
 ```
 
-[Styles](/custom-select.css)
-```css
-/* styles.css */
-@import 'custom-select.css';
-```
-
 # Use
 
 ## HTML
@@ -117,10 +111,9 @@ customSelect.addEventListener('change', e => console.log('changed'));
 
 ## CSS
 
-- `custom-select.css` can be fully customized
+- CSS can be customized: either itself or through CSS variables
 - to be able to **affect a Web Component with external stylesheet**, we use `::part(part-name)` [syntax](https://webcomponents.guide/learn/components/styling/#parts-styling-a-shadow-tree-from-the-outside)
 - some CSS properties are still [**inherited**](https://webcomponents.guide/learn/components/styling/#inheritance) from the outside: `font-size`, `font-family`, `color`
-- there are some **CSS variables**, that can be utilized
 
 ```html
 <!-- The resulting DOM nodes for the reference -->
