@@ -134,6 +134,7 @@ class CustomSelect extends HTMLElement {
 		this.#internals.setFormValue(newValue);
 		this.#emit('change', newValue);
 		this.#updateComponent(newValue);
+		console.info('changed value')
 	}
 
 	formResetCallback() {
