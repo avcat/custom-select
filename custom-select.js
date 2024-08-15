@@ -53,6 +53,14 @@ class CustomSelect extends HTMLElement {
 	#baseNode;
 
 	/**
+	 * Represents the default value of the select.
+	 * It can be: 1) `selected` value; 2) placeholder -> null; 3) first option
+	 * @access private
+	 * @type {string | null}
+	 */
+	#defaultValue;
+
+	/**
 	 * This static property can be used to define a custom HTML tag for this Web Component.
 	 * It is useful for avoiding possible name conflicts.
 	 * @static
@@ -75,6 +83,13 @@ class CustomSelect extends HTMLElement {
 		this.#internals = this.attachInternals();
 		this.#shadowRoot = this.attachShadow({ mode: 'open' });
 		this.#options = [];
+
+		/**
+		 * Represents the `placeholder` value.
+		 * @access public
+		 * @type {string | null}
+		 */
+		this.placeholder = null;
 	}
 
 	/**
@@ -84,6 +99,8 @@ class CustomSelect extends HTMLElement {
 	 * @return {void}
 	 */
 	connectedCallback() {
+		this.placeholder = this.getAttribute('placeholder');
+
 		this.#renderOnce();
 
 		/**
@@ -117,6 +134,20 @@ class CustomSelect extends HTMLElement {
 		this.#internals.setFormValue(newValue);
 		this.#emit('change', newValue);
 		this.#updateComponent(newValue);
+	}
+
+	formResetCallback() {
+		if (this.#defaultValue) {
+			this.value = this.#defaultValue;
+			return;
+		}
+
+		const selectedOption = this.#options.find(option => option.node.getAttribute('selected') !== null);
+		if (selectedOption) {
+			selectedOption.node.removeAttribute('selected');
+		}
+
+		this.#baseNode.textContent = this.placeholder;
 	}
 
 	/**
@@ -170,8 +201,6 @@ class CustomSelect extends HTMLElement {
 		
 		const base = document.createElement('div');
 		base.setAttribute('part', 'base');
-		const placeholder = this.getAttribute('placeholder');
-		base.textContent = placeholder || '';
 		this.#baseNode = base;
 		this.#shadowRoot.appendChild(base);
 
@@ -214,13 +243,17 @@ class CustomSelect extends HTMLElement {
 
 		if (selectedValue) {
 			this.setAttribute('value', selectedValue);
-		} else if (!placeholder) {
-			this.setAttribute(
-				'value', 
-				optionsNodesVanilla[0].getAttribute('value') 
-				|| optionsNodesVanilla[0].textContent
-			);
-			optionsNodesVanilla[0].setAttribute('selected', '');
+			this.#defaultValue = selectedValue;
+		} else if (this.placeholder) {
+			this.#baseNode.textContent = this.placeholder;
+			this.#defaultValue = null;
+		} else {
+			const firstOption = optionsNodesVanilla[0];
+			const firstOptionValue = firstOption.getAttribute('value') || firstOption.textContent;
+
+			this.setAttribute('value', firstOptionValue);
+			firstOption.setAttribute('selected', '');
+			this.#defaultValue = firstOptionValue;
 		}
 	}
 
@@ -353,38 +386,6 @@ function addStyles() {
 			position: relative;
 			transition: filter var(--tr-primary, .35s ease-in-out);
 
-			&:hover {
-
-				&::part(base) {
-					border-color: var(--base-border-color-hover, lightblue);
-				}
-			}
-
-			&[opened] {
-				z-index: 10;
-				filter: drop-shadow(var(--base-shadow-opened, 0px 2px 4px rgba(0 0 0 / .15)));
-
-				&::part(base) {
-					border-color: var(--base-border-color-opened, lightblue);
-					border-bottom-color: var(--base-background-color-opened, white);
-					background-color: var(--base-background-color-opened, white);
-					color: var(--base-color-opened, black);
-				}
-
-				&::part(base)::after {
-					rotate: 180deg;
-				}
-
-				&::part(options) {
-					opacity: 1;
-					visibility: visible;
-					border-color: var(--base-border-color-opened, lightblue);
-					border-top: none;
-					background-color: var(--base-background-color-opened, white);
-					color: var(--base-color-opened, black);
-				}
-			}
-
 			&::part(base) {
 				box-sizing: border-box;
 				font-size: var(--base-font-size, 1em);
@@ -449,6 +450,37 @@ function addStyles() {
 
 			&::part(option):hover {
 				background-color: var(--option-background-color-hover, lightblue);
+			}
+		}
+
+		:host(:hover) {
+			&::part(base) {
+				border-color: var(--base-border-color-hover, lightblue);
+			}
+		}
+
+		:host([opened]) {
+			z-index: 10;
+			filter: drop-shadow(var(--base-shadow-opened, 0px 2px 4px rgba(0 0 0 / .15)));
+			
+			&::part(base) {
+				border-color: var(--base-border-color-opened, lightblue);
+				border-bottom-color: var(--base-background-color-opened, white);
+				background-color: var(--base-background-color-opened, white);
+				color: var(--base-color-opened, black);
+			}
+
+			&::part(base)::after {
+				rotate: 180deg;
+			}
+
+			&::part(options) {
+				opacity: 1;
+				visibility: visible;
+				border-color: var(--base-border-color-opened, lightblue);
+				border-top: none;
+				background-color: var(--base-background-color-opened, white);
+				color: var(--base-color-opened, black);
 			}
 		}
 	`;

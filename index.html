@@ -37,6 +37,8 @@
             <option value="c++">C++</option>
             <option value="typescript">TypeScript</option>
         </custom-select>
+
+        <input type="reset" value="Reset" onclick="console.info('reset')">
     </form>
     
     <button onclick="console.table([...new FormData(document.querySelector('form'))])">new FormData</button>
