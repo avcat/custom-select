@@ -134,6 +134,7 @@ class CustomSelect extends HTMLElement {
 		this.#internals.setFormValue(newValue);
 		this.#emit('change', newValue);
 		this.#updateComponent(newValue);
+		console.info('changed value')
 	}
 
 	formResetCallback() {
@@ -148,6 +149,7 @@ class CustomSelect extends HTMLElement {
 		}
 
 		this.#baseNode.textContent = this.placeholder;
+		this.removeAttribute('value');
 	}
 
 	/**
@@ -242,7 +244,7 @@ class CustomSelect extends HTMLElement {
 		}
 
 		if (selectedValue) {
-			this.setAttribute('value', selectedValue);
+			this.value = selectedValue;
 			this.#defaultValue = selectedValue;
 		} else if (this.placeholder) {
 			this.#baseNode.textContent = this.placeholder;
@@ -251,7 +253,7 @@ class CustomSelect extends HTMLElement {
 			const firstOption = optionsNodesVanilla[0];
 			const firstOptionValue = firstOption.getAttribute('value') || firstOption.textContent;
 
-			this.setAttribute('value', firstOptionValue);
+			this.value = firstOptionValue;
 			firstOption.setAttribute('selected', '');
 			this.#defaultValue = firstOptionValue;
 		}
