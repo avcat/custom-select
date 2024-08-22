@@ -137,6 +137,12 @@ class CustomSelect extends HTMLElement {
 		console.info('changed value')
 	}
 
+	/**
+	 * Called when the form is being reset. 
+	 * The order of reset: `selected` option -> first option -> placeholder (no `selected` option).
+	 * @see {@link https://web.dev/articles/more-capable-form-controls#void_formresetcallback|void formResetCallback()}
+	 * @returns {void}
+	 */
 	formResetCallback() {
 		if (this.#defaultValue) {
 			this.value = this.#defaultValue;
