@@ -61,11 +61,10 @@ class CustomSelect extends HTMLElement {
 	#defaultValue;
 
 	/**
-	 * This static property can be used to define a custom HTML tag for this Web Component.
+	 * This static property can be used to define a custom name for the HTML tag for this Web Component.
 	 * It is useful for avoiding possible name conflicts.
 	 * @static
-	 * @param {string} [tag='custom-select'] tag
-	 * @default 'custom-select'
+	 * @param {string} [tag] default value is `custom-select`
 	 * @returns {void}
 	 */
 	static define(tag = 'custom-select') {
@@ -156,6 +155,18 @@ class CustomSelect extends HTMLElement {
 		this.#baseNode.textContent = this.placeholder;
 		this.removeAttribute('value');
 	}
+
+	/**
+	 * Called when the browser tries to restore or autocomplete the state of the element.
+	 * @see {@link https://web.dev/articles/more-capable-form-controls#void_formstaterestorecallbackstate_mode|void formStateRestoreCallback(state, mode)}
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals/setFormValue|ElementInternals: setFormValue() }
+	 * @param {string} value
+	 * @param {File | string | FormData} [state]
+	 * @returns {void}
+	 */
+	formStateRestoreCallback(value, state) {
+		this.value = value;
+  }
 
 	/**
 	 * Creates a [CustomEvent](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent) with provided type and value and dispatches it.
