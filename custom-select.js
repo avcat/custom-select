@@ -53,6 +53,14 @@ class CustomSelect extends HTMLElement {
 	#baseNode;
 
 	/**
+	 * Represents visually hidden form element inside `CustomSelect`, used as `anchor` for internal browser validation messages.
+	 * This `CustomSelect` has only one validation message, responsive to the `required` attribute. 
+	 * @access private
+	 * @type {HTMLInputElement | null}
+	 */
+	#inputNode;
+
+	/**
 	 * Represents the default value of the select.
 	 * It can be: 1) `selected` value; 2) placeholder -> null; 3) first option
 	 * @access private
@@ -98,9 +106,13 @@ class CustomSelect extends HTMLElement {
 	 * @return {void}
 	 */
 	connectedCallback() {
+		/**
+		 * Form control should be focusable to use the {@link https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals#instance_methods|Instance Methods}
+		*/
+		this.tabIndex = 0;
 		this.placeholder = this.getAttribute('placeholder');
-
 		this.#renderOnce();
+		this.#updateValidity();
 
 		/**
 		 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/Document/adoptedStyleSheets}
@@ -133,6 +145,7 @@ class CustomSelect extends HTMLElement {
 		this.#internals.setFormValue(newValue);
 		this.#emit('change', newValue);
 		this.#updateComponent(newValue);
+		this.#updateValidity();
 	}
 
 	/**
@@ -222,6 +235,12 @@ class CustomSelect extends HTMLElement {
 		this.#baseNode = base;
 		this.#shadowRoot.appendChild(base);
 
+		const input = document.createElement('input');
+		input.setAttribute('type', 'checkbox');
+		input.tabIndex = -1; // visually hidden element should be skipped by keyboard navigation in favor of the host element
+		this.#inputNode = input;
+		this.#shadowRoot.appendChild(input);
+
 		const optionsNodesVanilla = [...this.querySelectorAll('option')];
 
 		if (optionsNodesVanilla.length > 0) {
@@ -276,7 +295,7 @@ class CustomSelect extends HTMLElement {
 	}
 
 	/**
-	 * Toggles the custom select and changes its value.
+	 * Toggles the `CustomSelect` and changes its value.
 	 * @param {Event} event 
 	 * @returns {void}
 	 */
@@ -346,7 +365,7 @@ class CustomSelect extends HTMLElement {
 	}
 
 	/**
-	 * Toggle `opened` state of the custom select.
+	 * Toggle `opened` state of the `CustomSelect`.
 	 * @return {boolean} New `opened` state after toggle.
 	 */
 	toggle() {
@@ -383,6 +402,28 @@ class CustomSelect extends HTMLElement {
 		}
 
 		this.setAttribute('value', newValueConverted);
+	}
+
+	/**
+	 * Checks if element is considered valid.
+	 * `CustomSelect` is invalid, if it has the `required` attribute, but does bot have a value.
+	 * @returns {boolean}
+	 */
+	checkValidity() {
+		return this.#internals.checkValidity();
+	}
+
+	/**
+	 * Updates the validity of the `CustomSelect`.
+	 * @returns {void}
+	 */
+	#updateValidity() {
+		if (this.hasAttribute('required') && !this.value) {
+			this.#internals.setValidity({ valueMissing: true }, 'The required value is missing.', this.#inputNode);
+			this.#internals.reportValidity();
+		} else {
+			this.#internals.setValidity({});
+		}
 	}
 }
 
@@ -466,6 +507,10 @@ function addStyles() {
 				transition: background-color var(--tr-primary, .35s ease-in-out);
 			}
 
+			input {
+				all: unset;
+			}
+
 			&::part(option):hover {
 				background-color: var(--option-background-color-hover, lightblue);
 			}
@@ -500,6 +545,10 @@ function addStyles() {
 				background-color: var(--base-background-color-opened, white);
 				color: var(--base-color-opened, black);
 			}
+		}
+
+		:host(:invalid) {
+			--base-border-color: red;
 		}
 	`;
 

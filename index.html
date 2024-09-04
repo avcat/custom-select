@@ -18,8 +18,8 @@
             <option value="typescript">TypeScript</option>
         </custom-select>
 
-        <h2>With <code>placeholder</code> value</h2>
-        <custom-select name="programming-language-2" placeholder="Placeholder">
+        <h2>With <code>placeholder</code> value and <code>required</code></h2>
+        <custom-select name="programming-language-2" placeholder="Placeholder" required>
             <option value="python">Python</option>
             <option value="javascript">JavaScript</option>
             <option value="java">Java</option>
@@ -39,6 +39,8 @@
         </custom-select>
 
         <input type="reset" value="Reset" onclick="console.info('reset')">
+
+        <input type="submit" value="Submit">
     </form>
     
     <button onclick="console.table([...new FormData(document.querySelector('form'))])">new FormData</button>
