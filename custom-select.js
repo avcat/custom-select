@@ -103,7 +103,7 @@ class CustomSelect extends HTMLElement {
 	 * Lifecycle callback. Called each time the element is added to the document.
 	 * Used for the first render and to add event listeners to the element.
 	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements|Using custom elements on MDN.}
-	 * @return {void}
+	 * @returns {void}
 	 */
 	connectedCallback() {
 		/**
@@ -126,7 +126,7 @@ class CustomSelect extends HTMLElement {
 	 * Lifecycle callback. Called each time the element is removed from the document.
 	 * Used to remove event listeners from the element.
 	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements|Using custom elements on MDN.}
-	 * @return {void}
+	 * @returns {void}
 	 */
 	disconnectedCallback() {
 		this.removeEventListener('click', this.#handleClick);
@@ -139,7 +139,7 @@ class CustomSelect extends HTMLElement {
 	 * @param {string} name The name of the attribute which changed.
 	 * @param {string} oldValue The attribute's old value.
 	 * @param {string} newValue The attribute's new value.
-	 * @return {void}
+	 * @returns {void}
 	 */
 	attributeChangedCallback(name, oldValue, newValue) {
 		this.#internals.setFormValue(newValue);
@@ -336,7 +336,7 @@ class CustomSelect extends HTMLElement {
 
 	/**
 	 * Gets the `opened` state of the `CustomSelect` component.
-	 * @return {boolean} The `opened` state.
+	 * @returns {boolean} The `opened` state.
 	 */
 	get opened() {
 		return this.hasAttribute('opened');
@@ -366,7 +366,7 @@ class CustomSelect extends HTMLElement {
 
 	/**
 	 * Toggle `opened` state of the `CustomSelect`.
-	 * @return {boolean} New `opened` state after toggle.
+	 * @returns {boolean} New `opened` state after toggle.
 	 */
 	toggle() {
 		if (this.opened) {
@@ -380,7 +380,7 @@ class CustomSelect extends HTMLElement {
 
 	/**
 	 * Gets the `value` of the `CustomSelect` component.
-	 * @return {string} The `value` of the `CustomSelect` component.
+	 * @returns {string} The `value` of the `CustomSelect` component.
 	 */
 	get value() {
 		return this.getAttribute('value');
@@ -524,7 +524,6 @@ function addStyles() {
 
 		:host([opened]) {
 			z-index: 10;
-			filter: drop-shadow(var(--base-shadow-opened, 0px 2px 4px rgba(0 0 0 / .15)));
 			
 			&::part(base) {
 				border-color: var(--base-border-color-opened, lightblue);
