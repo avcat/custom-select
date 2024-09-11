@@ -2,18 +2,18 @@
 
 # Add to project
 
+## As ES6 module from local file ([download](https://github.com/avcat/custom-select/blob/main/custom-select.js))
 ```JS
-// in other.js as module from local file
 import 'custom-select.js';
 ```
 
+## As ES6 module from CDN
 ```JS
-// in other.js as module from CDN
 import 'https://cdn.jsdelivr.net/gh/avcat/custom-select/custom-select.min.js';
 ```
 
+## As external file from CDN
 ```HTML
-<!-- in other.HTML as file from CDN -->
 <script src="https://cdn.jsdelivr.net/gh/avcat/custom-select/custom-select.min.js"></script>
 ```
 
