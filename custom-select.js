@@ -456,6 +456,7 @@ function addStyles() {
 				height: var(--base-min-height, 2.5em);
 				border-width: var(--base-border-width, 1px);
 				border-style: solid;
+				border-radius: var(--select-border-radius, 0);
 				border-color: var(--base-border-color, black);
 				white-space: nowrap;
 				cursor: pointer;
@@ -486,6 +487,8 @@ function addStyles() {
 				padding: var(--options-padding-block, 0) 0;
 				border-width: var(--base-border-width, 1px);
 				border-style: solid;
+				border-bottom-left-radius: var(--select-border-radius, 0);
+				border-bottom-right-radius: var(--select-border-radius, 0);
 				scrollbar-color: var(--accent-primary, dimgray) transparent;
 				--single-option-height: calc(var(--option-padding-block, .5em) * 2 + 1lh);
 				max-height:
@@ -518,6 +521,7 @@ function addStyles() {
 
 		:host(:hover) {
 			&::part(base) {
+				background-color: var(--base-background-color-opened, white);
 				border-color: var(--base-border-color-hover, lightblue);
 			}
 		}
@@ -526,6 +530,8 @@ function addStyles() {
 			z-index: 10;
 			
 			&::part(base) {
+				border-bottom-left-radius: 0;
+				border-bottom-right-radius: 0;
 				border-color: var(--base-border-color-opened, lightblue);
 				border-bottom-color: var(--base-background-color-opened, white);
 				background-color: var(--base-background-color-opened, white);

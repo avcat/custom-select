@@ -179,6 +179,7 @@ Some CSS properties are still [**inherited**](https://webcomponents.guide/learn/
 
 ### Sizes
 ```CSS
+--select-border-radius: 0;
 --base-min-height: 2.5em;
 --base-padding-inline: 0.5em;
 --base-icon-width: 1em;
