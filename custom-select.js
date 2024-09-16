@@ -69,17 +69,30 @@ class CustomSelect extends HTMLElement {
 	#defaultValue;
 
 	/**
+	 * Is used to keep the tag name of this `CustomSelect`.
+	 * @type {string}
+	 */
+	static tag = 'custom-select';
+
+	/**
 	 * This static property can be used to define a custom name for the HTML tag for this Web Component.
 	 * It is useful for avoiding possible name conflicts.
 	 * @static
 	 * @param {string} [tag] default value is `custom-select`
 	 * @returns {void}
 	 */
-	static define(tag = 'custom-select') {
+	static define(tag = CustomSelect.tag) {
 		if (!customElements.get(tag)) {
 			customElements.define(tag, this);
+			CustomSelect.tag = tag;
 		}
 	}
+
+	/**
+	 * Is used to make sure we only add single global event listener.
+	 * @type {boolean}
+	 */
+	static isDocumentListener = false;
 
 	/**
    * Creates an instance of CustomSelect.
@@ -119,7 +132,11 @@ class CustomSelect extends HTMLElement {
 		 * @type {Array<CSSStyleSheet>}
 		 */
 		this.#shadowRoot.adoptedStyleSheets = [addStyles()];
-		this.addEventListener('click', this.#handleClick);
+
+		if (!CustomSelect.isDocumentListener) {
+			document.addEventListener('click', this.#handleClick);
+			CustomSelect.isDocumentListener = true;
+		}
 	}
 
 	/**
@@ -129,7 +146,7 @@ class CustomSelect extends HTMLElement {
 	 * @returns {void}
 	 */
 	disconnectedCallback() {
-		this.removeEventListener('click', this.#handleClick);
+		document.removeEventListener('click', this.#handleClick);
 	}
 
 	/**
@@ -300,37 +317,56 @@ class CustomSelect extends HTMLElement {
 	 * @returns {void}
 	 */
 	#handleClick(event) {
-		event.stopPropagation();
-		
 		/**
-		 * `composedPath` is something that will work in both Chrome and Firefox.
-		 * With `event.target` defaults to the <custom-select> host element.
-		 * Another alternative is to use [originalTarget](https://developer.mozilla.org/en-US/docs/Web/API/Event/originalTarget).
-		 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/Event/composedPath}
-		 * @type {EventTarget}
+		 * There is a need in picking `this` context from the `EventTarget`, 
+		 * because the global listener is added to the `document` only by the first `CustomSelect` instance.
+		 * @type {EventTarget | CustomSelect}
 		 */
-		const el = event.composedPath()[0];
+		const thisInstance = event.target;
+		const isCustomSelect = thisInstance instanceof CustomSelect;
 
-		/**
-		 * Emulates a generic `EventTarget as HTMLElement`.
-		 */
-		if (!(el instanceof HTMLElement)) {
-			return;
-		}
+		if (isCustomSelect) {
+			/**
+			 * `composedPath` is something that will work in both Chrome and Firefox.
+			 * With `event.target` defaults to the <custom-select> host element.
+			 * Another alternative is to use [originalTarget](https://developer.mozilla.org/en-US/docs/Web/API/Event/originalTarget).
+			 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/Event/composedPath}
+			 * @type {EventTarget}
+			*/
+			const part = event.composedPath()[0];
 
-		switch (el.getAttribute('part')) {
-			case 'option': {
-				this.value = el.getAttribute('value');
-				this.opened = false;
-				break;
+			/**
+			 * Emulates a generic `EventTarget as HTMLElement`.
+			 */
+			if (!(part instanceof HTMLElement)) {
+				return;
 			}
-			case 'base': {
-				this.toggle();
-				break;
+
+			switch (part.getAttribute('part')) {
+				case 'option': {
+					thisInstance.value = part.getAttribute('value');
+					thisInstance.opened = false;
+					break;
+				}
+				case 'base': {
+					thisInstance.toggle();
+					break;
+				}
+				default: {
+					break;
+				}
 			}
-			default: {
-				break;
+		} else {
+			/**
+			 * @type {CustomSelect}
+			 */
+			const openedCustomSelect = document.querySelector(`${CustomSelect.tag}[opened]`);
+
+			if (!openedCustomSelect) {
+				return;
 			}
+
+			openedCustomSelect.opened = false;
 		}
 	}
 
@@ -345,6 +381,7 @@ class CustomSelect extends HTMLElement {
 	/**
    * Sets the `opened` state of the `CustomSelect` component.
    * @param {boolean} state The new opened state.
+	 * @returns {void}
    */
 	set opened(state) {
 		if (typeof state !== 'boolean') {
@@ -352,13 +389,7 @@ class CustomSelect extends HTMLElement {
     }
 
 		if (state) {
-			 this.setAttribute('opened', '');
-
-			 document.addEventListener(
-				'click', 
-				e => e.target !== this && (this.opened = false), 
-				{ once: true }
-			);
+			this.setAttribute('opened', '');
 		} else {
 			this.removeAttribute('opened');
 		}
@@ -391,7 +422,8 @@ class CustomSelect extends HTMLElement {
 	 * The new value will be applied if the `CustomSelect` included an
 	 * option with this value when it was firstly initialized.
 	 * `newValue` is converted to string.
-   * @param {number|string} newValue The new _possible_ state.
+   * @param {number | string} newValue The new _possible_ state.
+	 * @returns {void}
    */
 	set value(newValue) {
 		const newValueConverted = newValue.toString();
