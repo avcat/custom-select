@@ -325,48 +325,46 @@ class CustomSelect extends HTMLElement {
 		const thisInstance = event.target;
 		const isCustomSelect = thisInstance instanceof CustomSelect;
 
-		if (isCustomSelect) {
-			/**
-			 * `composedPath` is something that will work in both Chrome and Firefox.
-			 * With `event.target` defaults to the <custom-select> host element.
-			 * Another alternative is to use [originalTarget](https://developer.mozilla.org/en-US/docs/Web/API/Event/originalTarget).
-			 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/Event/composedPath}
-			 * @type {EventTarget}
-			*/
-			const part = event.composedPath()[0];
+		/**
+		 * @type {CustomSelect}
+		 */
+		const openedCustomSelect = document.querySelector(`${CustomSelect.tag}[opened]`);
 
-			/**
-			 * Emulates a generic `EventTarget as HTMLElement`.
-			 */
-			if (!(part instanceof HTMLElement)) {
-				return;
-			}
-
-			switch (part.getAttribute('part')) {
-				case 'option': {
-					thisInstance.value = part.getAttribute('value');
-					thisInstance.opened = false;
-					break;
-				}
-				case 'base': {
-					thisInstance.toggle();
-					break;
-				}
-				default: {
-					break;
-				}
-			}
-		} else {
-			/**
-			 * @type {CustomSelect}
-			 */
-			const openedCustomSelect = document.querySelector(`${CustomSelect.tag}[opened]`);
-
-			if (!openedCustomSelect) {
-				return;
-			}
-
+		if (openedCustomSelect) {
 			openedCustomSelect.opened = false;
+		}
+
+		if (!isCustomSelect || openedCustomSelect === thisInstance) return;
+
+		/**
+		 * `composedPath` is something that will work in both Chrome and Firefox.
+		 * With `event.target` defaults to the <custom-select> host element.
+		 * Another alternative is to use [originalTarget](https://developer.mozilla.org/en-US/docs/Web/API/Event/originalTarget).
+		 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/Event/composedPath}
+		 * @type {EventTarget}
+		*/
+		const part = event.composedPath()[0];
+
+		/**
+		 * Emulates a generic `EventTarget as HTMLElement`.
+		 */
+		if (!(part instanceof HTMLElement)) {
+			return;
+		}
+
+		switch (part.getAttribute('part')) {
+			case 'option': {
+				thisInstance.value = part.getAttribute('value');
+				thisInstance.opened = false;
+				break;
+			}
+			case 'base': {
+				thisInstance.opened = true;
+				break;
+			}
+			default: {
+				break;
+			}
 		}
 	}
 
