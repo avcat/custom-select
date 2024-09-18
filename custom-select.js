@@ -329,12 +329,12 @@ class CustomSelect extends HTMLElement {
 		 * @type {CustomSelect}
 		 */
 		const openedCustomSelect = document.querySelector(`${CustomSelect.tag}[opened]`);
-
-		if (openedCustomSelect) {
+		
+		if (openedCustomSelect && openedCustomSelect !== thisInstance) {
 			openedCustomSelect.opened = false;
 		}
 
-		if (!isCustomSelect || openedCustomSelect === thisInstance) return;
+		if (!isCustomSelect) return;
 
 		/**
 		 * `composedPath` is something that will work in both Chrome and Firefox.
@@ -359,7 +359,7 @@ class CustomSelect extends HTMLElement {
 				break;
 			}
 			case 'base': {
-				thisInstance.opened = true;
+				thisInstance.toggle();
 				break;
 			}
 			default: {
