@@ -10,6 +10,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     const fieldset = Fieldset(key, customizations[key]);
     customizationForm.insertAdjacentHTML('beforeend', fieldset);
   }
+
+  customizationForm.insertAdjacentHTML('beforeend', `
+    <input type="submit" value="Get CSS">
+  `);
 }, { once: true });
 
 // Apply new styles on change
@@ -40,6 +44,5 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.info( cssOutputNode, customCss )
     cssOutputNode.select();
     document.execCommand( 'copy' );
-    // alert('CSS copied to clipboard!');
   } );
 }, { once: true });
