@@ -6,61 +6,10 @@
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <title>custom-select</title>
     <script src="./custom-select.js" defer></script>
+    <script type="module" src="./src/js/main.js" defer></script>
 </head>
 <body>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelector('[data-js="customize"]')?.addEventListener('change', e => {
-                const { name, value } = e.target;
-                document.documentElement.style.setProperty(name, value);
-            });
-
-            document.querySelector('[data-js="customize"]')?.addEventListener('submit', e => {
-                e.preventDefault();
-
-                const formData = new FormData(e.originalTarget);
-                let customCss = '';
-
-                for (let [name, value] of formData) {
-                    customCss += `${name}: ${value};\n`;
-                }
-
-                const cssOutputNode = document.querySelector('[data-js="css-output"]');
-
-                if (!cssOutputNode) return;
-
-                cssOutputNode.value = customCss;
-                console.info(cssOutputNode, customCss)
-                cssOutputNode.select();
-                document.execCommand('copy');
-                // alert('CSS copied to clipboard!');
-            });
-        }, true);
-    </script>
-
-    <form class="customize" data-js="customize">
-        <fieldset>
-            <legend>--select-border-radius</legend>
-            <label>
-                <input type="radio" name="--select-border-radius" value="0">0
-            </label>
-            <label>
-                <input type="radio" name="--select-border-radius" value="10px">10px
-            </label>
-        </fieldset>
-
-        <fieldset>
-            <legend>--base-min-height</legend>
-            <label>
-                <input type="radio" name="--base-min-height" value="2.5em">2.5em
-            </label>
-            <label>
-                <input type="radio" name="--base-min-height" value="3.5em">3.5em
-            </label>
-        </fieldset>
-
-        <input type="submit" value="Get CSS">
-    </form>
+    <form class="customize" data-js="customize"></form>
 
     <textarea data-js="css-output" readonly></textarea>
 

@@ -473,7 +473,7 @@ function addStyles() {
 		:host {
 			user-select: none;
 			position: relative;
-			transition: filter var(--tr-primary, .35s ease-in-out);
+			transition: filter var(--transition-duration, 0.3s) var(--transition-timing-function, ease);
 
 			&::part(base) {
 				box-sizing: border-box;
@@ -484,13 +484,13 @@ function addStyles() {
 				gap: var(--base-icon-gap, 1em);
 				padding-inline: var(--base-padding-inline, .5em);
 				height: var(--base-min-height, 2.5em);
-				border-width: var(--base-border-width, 1px);
+				border-width: var(--base-border-width, 0.1em);
 				border-style: solid;
 				border-radius: var(--select-border-radius, 0);
 				border-color: var(--base-border-color, black);
 				white-space: nowrap;
 				cursor: pointer;
-				transition: border-color var(--tr-primary, .35s ease-in-out), background-color var(--tr-primary, .35s ease-in-out);
+				transition: border-color var(--transition-duration, 0.3s) var(--transition-timing-function, ease), background-color var(--transition-duration, 0.3s) var(--transition-timing-function, ease);
 			}
 
 			&::part(base)::after {
@@ -498,12 +498,13 @@ function addStyles() {
 				content: '';
 				height: 100%;
 				width: var(--base-icon-width, 1em);
+				/* We are using background-image instead if content to have control over external image's size */
 				background-image: var(--arrow-icon, url('data:image/svg+xml, <svg fill="none" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>'));
 				background-position: center;
 				background-repeat: no-repeat;
 				background-size: contain;
 				transform-origin: center;
-				transition: rotate var(--tr-primary, .35s ease-in-out);
+				transition: rotate var(--transition-duration, 0.3s) var(--transition-timing-function, ease);
 			}
 
 			&::part(options-wrapper) {
@@ -515,7 +516,7 @@ function addStyles() {
 				list-style: none;
 				font-size: var(--options-font-size, 1em);
 				padding: var(--options-padding-block, 0) 0;
-				border-width: var(--base-border-width, 1px);
+				border-width: var(--base-border-width, 0.1em);
 				border-style: solid;
 				border-bottom-left-radius: var(--select-border-radius, 0);
 				border-bottom-right-radius: var(--select-border-radius, 0);
@@ -528,7 +529,7 @@ function addStyles() {
 						* var(--options-max-display-items, 5)
 					);
 				overflow-y: auto;
-				transition: all var(--tr-primary, .35s ease-in-out);
+				transition: all var(--transition-duration, 0.3s) var(--transition-timing-function, ease);
 				opacity: 0;
 				visibility: hidden;
 			}
@@ -537,7 +538,7 @@ function addStyles() {
 				padding-block: var(--option-padding-block, .5em);
 				padding-inline: var(--base-padding-inline, .5em) calc(var(--base-padding-inline, .5em) + var(--base-icon-width, 1em) + var(--base-icon-gap, 1em));
 				cursor: pointer;
-				transition: background-color var(--tr-primary, .35s ease-in-out);
+				transition: background-color var(--transition-duration, 0.3s) var(--transition-timing-function, ease);
 			}
 
 			input {
@@ -551,7 +552,7 @@ function addStyles() {
 
 		:host(:hover) {
 			&::part(base) {
-				background-color: var(--base-background-color-opened, white);
+				background-color: var(--base-background-color-hover, white);
 				border-color: var(--base-border-color-hover, lightblue);
 			}
 		}

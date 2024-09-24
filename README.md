@@ -183,7 +183,7 @@ Some CSS properties are still [**inherited**](https://webcomponents.guide/learn/
 --base-min-height: 2.5em;
 --base-padding-inline: 0.5em;
 --base-icon-width: 1em;
---base-border-width: 1px;
+--base-border-width: 0.1em;
 --base-font-size: 1em;
 --options-padding-block: 0;
 --options-font-size: 1em;
@@ -195,6 +195,7 @@ Some CSS properties are still [**inherited**](https://webcomponents.guide/learn/
 ```CSS
 --base-border-color: black;
 --base-border-color-hover: lightblue;
+--base-background-color-hover: white;
 --base-border-color-opened: lightblue;
 --base-background-color-opened: white;
 --base-color-opened: black;
@@ -203,6 +204,7 @@ Some CSS properties are still [**inherited**](https://webcomponents.guide/learn/
 
 ### Other
 ```CSS
---transition: 0.35s ease-in-out;
+--transition-duration: 0.3s;
+--transition-timing-function: ease;
 --arrow-icon: url('data:image/svg+xml, &lt;svg fill="none" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg&gt;');
 ```
