@@ -7,48 +7,60 @@
     <title>custom-select</title>
     <script src="./custom-select.js" defer></script>
     <script type="module" src="./src/js/main.js" defer></script>
+    <link rel="stylesheet" href="./src/css/reset.css">
+    <link rel="stylesheet" href="./src/css/style.css">
 </head>
 <body>
-    <form class="customize" data-js="customize"></form>
-
-    <textarea data-js="css-output" autocomplete="off" readonly></textarea>
-
-    <form>
-        <h2>Default (no <code>placeholder</code>, no <code>selected</code>)</h2>
-        <custom-select name="programming-language-1">
-            <option value="python">Python</option>
-            <option value="javascript">JavaScript</option>
-            <option value="java">Java</option>
-            <option value="c#">C#</option>
-            <option value="c++">C++</option>
-            <option value="typescript">TypeScript</option>
-        </custom-select>
-
-        <h2>With <code>placeholder</code> value and <code>required</code></h2>
-        <custom-select name="programming-language-2" placeholder="Placeholder" required>
-            <option value="python">Python</option>
-            <option value="javascript">JavaScript</option>
-            <option value="java">Java</option>
-            <option value="c#">C#</option>
-            <option value="c++">C++</option>
-            <option value="typescript">TypeScript</option>
-        </custom-select>
-
-        <h2>With <code>selected</code> value</h2>
-        <custom-select name="programming-language-3">
-            <option value="python">Python</option>
-            <option value="javascript" selected>JavaScript</option>
-            <option value="java">Java</option>
-            <option value="c#">C#</option>
-            <option value="c++">C++</option>
-            <option value="typescript">TypeScript</option>
-        </custom-select>
-
-        <input type="reset" value="Reset" onclick="console.info('reset')">
-
-        <input type="submit" value="Submit">
-    </form>
+    <div class="wrapper">
+        <form class="test-form-data" data-js="test-form-data">
+            <div>
+                <h2>Default (no <code>placeholder</code>, no <code>selected</code>)</h2>
+                <custom-select name="programming-language-1">
+                    <option value="python">Python</option>
+                    <option value="javascript">JavaScript</option>
+                    <option value="java">Java</option>
+                    <option value="c#">C#</option>
+                    <option value="c++">C++</option>
+                    <option value="typescript">TypeScript</option>
+                </custom-select>
+            </div>
     
-    <button onclick="console.table([...new FormData(document.querySelector('form'))])">new FormData</button>
+            <div>
+                <h2>With <code>placeholder</code> value and <code>required</code></h2>
+                <custom-select name="programming-language-2" placeholder="Placeholder" required>
+                    <option value="python">Python</option>
+                    <option value="javascript">JavaScript</option>
+                    <option value="java">Java</option>
+                    <option value="c#">C#</option>
+                    <option value="c++">C++</option>
+                    <option value="typescript">TypeScript</option>
+                </custom-select>
+            </div>
+    
+            <div>
+                <h2>With <code>selected</code> value</h2>
+                <custom-select name="programming-language-3">
+                    <option value="python">Python</option>
+                    <option value="javascript" selected>JavaScript</option>
+                    <option value="java">Java</option>
+                    <option value="c#">C#</option>
+                    <option value="c++">C++</option>
+                    <option value="typescript">TypeScript</option>
+                </custom-select>
+            </div>
+    
+            <div class="manage">
+                <input type="reset" value="Reset" onclick="console.info('reset')">
+                <input type="submit" value="Submit">
+            </div>
+        </form>
+
+        <form class="customize" data-js="customize">
+            <div class="manage">
+                <input type="submit" value="Get CSS">
+                <textarea data-js="css-output" autocomplete="off" readonly wrap="off"></textarea>
+            </div>
+        </form>
+    </div>
 </body>
 </html>

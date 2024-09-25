@@ -484,9 +484,9 @@ function addStyles() {
 				gap: var(--base-icon-gap, 1em);
 				padding-inline: var(--base-padding-inline, .5em);
 				height: var(--base-min-height, 2.5em);
-				border-width: var(--base-border-width, 0.1em);
+				border-width: var(--base-border-width, 2px);
 				border-style: solid;
-				border-radius: var(--select-border-radius, 0);
+				border-radius: var(--select-border-radius, 5px);
 				border-color: var(--base-border-color, black);
 				white-space: nowrap;
 				cursor: pointer;
@@ -508,6 +508,7 @@ function addStyles() {
 			}
 
 			&::part(options-wrapper) {
+				margin-top: calc(-1 * var(--base-border-width, 2px));
 				height: 0;
 			}
 
@@ -516,10 +517,10 @@ function addStyles() {
 				list-style: none;
 				font-size: var(--options-font-size, 1em);
 				padding: var(--options-padding-block, 0) 0;
-				border-width: var(--base-border-width, 0.1em);
+				border-width: var(--base-border-width, 2px);
 				border-style: solid;
-				border-bottom-left-radius: var(--select-border-radius, 0);
-				border-bottom-right-radius: var(--select-border-radius, 0);
+				border-bottom-left-radius: var(--select-border-radius, 5px);
+				border-bottom-right-radius: var(--select-border-radius, 5px);
 				scrollbar-color: var(--accent-primary, dimgray) transparent;
 				--single-option-height: calc(var(--option-padding-block, .5em) * 2 + 1lh);
 				max-height:

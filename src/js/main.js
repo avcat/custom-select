@@ -2,7 +2,7 @@ import customizations from '../data/customizations.js';
 import Fieldset from "../components/Fieldset.js";
 
 // Output customization fields
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', () => {
   const customizationForm = document.querySelector('[data-js="customize"]');
   if (!customizationForm) return;
 
@@ -10,14 +10,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     const fieldset = Fieldset(key, customizations[key]);
     customizationForm.insertAdjacentHTML('beforeend', fieldset);
   }
-
-  customizationForm.insertAdjacentHTML('beforeend', `
-    <input type="submit" value="Get CSS">
-  `);
 }, { once: true });
 
 // Apply new styles on change
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', () => {
   document.querySelector( '[data-js="customize"]' )?.addEventListener( 'change', e => {
     const { name, value } = e.target;
     document.documentElement.style.setProperty( name, value );
@@ -25,7 +21,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 }, { once: true });
 
 // Output new styles
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', () => {
   document.querySelector( '[data-js="customize"]' )?.addEventListener( 'submit', e => {
     e.preventDefault();
 
@@ -44,5 +40,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.info( cssOutputNode, customCss )
     cssOutputNode.select();
     document.execCommand( 'copy' );
+  } );
+}, { once: true });
+
+// Output FormData on submit
+document.addEventListener('DOMContentLoaded', () => {
+  const testForm = document.querySelector( '[data-js="test-form-data"]' );
+
+  if (!testForm) return;
+
+  testForm.addEventListener( 'submit', e => {
+    e.preventDefault();
+    const testFormData = [...new FormData(testForm)];
+    console.table(testFormData);
   } );
 }, { once: true });

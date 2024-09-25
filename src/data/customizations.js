@@ -20,8 +20,9 @@ const customizations = {
     '1.5em',
   ],
   '--base-border-width': [
-    '>0.1em',
-    '0.15em',
+    '1px',
+    '>2px',
+    '3px',
   ],
   '--base-font-size': [
     '0.75em',
@@ -94,9 +95,9 @@ const customizations = {
     'ease-in-out',
   ],
   '--arrow-icon': [
-    'url(https://cdn2.iconfinder.com/data/icons/font-awesome/1792/chevron-down-1024.png)',
-    'url(https://cdn3.iconfinder.com/data/icons/font-awesome-solid/512/circle-chevron-down-1024.png)',
-    'url(https://cdn0.iconfinder.com/data/icons/evericons-24px-vol-1/24/circle-chevron-bottom-1024.png)',
+    'https://cdn2.iconfinder.com/data/icons/font-awesome/1792/chevron-down-1024.png',
+    'https://cdn3.iconfinder.com/data/icons/font-awesome-solid/512/circle-chevron-down-1024.png',
+    'https://cdn0.iconfinder.com/data/icons/evericons-24px-vol-1/24/circle-chevron-bottom-1024.png',
   ],
 };
 
