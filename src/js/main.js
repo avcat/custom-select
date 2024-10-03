@@ -12,6 +12,18 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 }, { once: true });
 
+// Apply default styles on load
+document.addEventListener('DOMContentLoaded', () => {
+  const defaultValues = [...new FormData(document.querySelector('[data-js="customize"]'))];
+  
+  if (!defaultValues || !defaultValues.length) return;
+
+  defaultValues.forEach(defaultValue => {
+    const [name, value] = defaultValue;
+    document.documentElement.style.setProperty( name, value );
+  });
+}, { once: true });
+
 // Apply new styles on change
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelector( '[data-js="customize"]' )?.addEventListener( 'change', e => {
@@ -26,11 +38,12 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
 
     const formData = new FormData( e.originalTarget );
-    let customCss = '';
 
+    let customCss = 'custom-select {\n';
     for ( let [name, value] of formData ) {
-      customCss += `${name}: ${value};\n`;
+      customCss += `\t${name}: ${value};\n`;
     }
+    customCss += '}';
 
     const cssOutputNode = document.querySelector( '[data-js="css-output"]' );
 

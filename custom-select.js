@@ -529,7 +529,7 @@ function addStyles() {
 						+ var(--single-option-height, 2em)
 						* var(--options-max-display-items, 5)
 					);
-				overflow-y: auto;
+				overflow: hidden auto;
 				transition: all var(--transition-duration, 0.3s) var(--transition-timing-function, ease);
 				opacity: 0;
 				visibility: hidden;
