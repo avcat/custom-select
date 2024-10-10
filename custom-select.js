@@ -522,13 +522,11 @@ function addStyles() {
 				border-bottom-left-radius: var(--select-border-radius, 5px);
 				border-bottom-right-radius: var(--select-border-radius, 5px);
 				scrollbar-color: var(--accent-primary, dimgray) transparent;
-				--single-option-height: calc(var(--option-padding-block, .5em) * 2 + 1lh);
-				max-height:
-					calc(
-						var(--options-padding-block, 0em) * 2
-						+ var(--single-option-height, 2em)
-						* var(--options-max-display-items, 5)
-					);
+				max-height: calc(
+					var(--options-padding-block, 0em) * 2
+					+ calc(var(--option-padding-block, .5em) * 2 + 1lh)
+					* var(--options-max-display-items, 5)
+				); /* In nested calc() units of measurement must match: https://stackoverflow.com/a/53656145 */
 				overflow: hidden auto;
 				transition: all var(--transition-duration, 0.3s) var(--transition-timing-function, ease);
 				opacity: 0;

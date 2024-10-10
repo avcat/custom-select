@@ -1,6 +1,6 @@
 const customizations = {
   '--select-border-radius': [
-    '0',
+    '0px',
     '>5px',
     '10px',
   ],
@@ -30,7 +30,7 @@ const customizations = {
     '1.25em',
   ],
   '--options-padding-block': [
-    '>0',
+    '>0em',
     '0.5em',
     '1em',
   ],
@@ -85,7 +85,7 @@ const customizations = {
     'green',
   ],
   '--transition-duration': [
-    '0',
+    '0s',
     '0.2s',
     '>0.3s',
   ],
