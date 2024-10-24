@@ -22,6 +22,8 @@ body {
   border-radius: 1em;
   background-color: #ffffff80;
   backdrop-filter: blur(3px);
+  border: 1px solid #ffffff32;
+  box-shadow: 0 0 3px 2px #33111161;
 }
 
 .manage {
@@ -66,5 +68,38 @@ body {
 
   textarea {
     resize: none;
+  }
+}
+
+.toast-box {
+  position: fixed;
+  z-index: 100;
+  inset: auto 0 0 0;
+  padding: 1em;
+  display: grid;
+  justify-content: center;
+  gap: 1em;
+
+  .toast {
+    padding: 0.5em 1em;
+    border-radius: 1em;
+    background-color: #ffffffa8;
+    backdrop-filter: blur(3px);
+    border: 1px solid #ffffff32;
+    box-shadow: 0 0 3px 2px #3311111a;
+
+    transition: all 0.25s ease;
+    transform-origin: center bottom;
+    scale: 0.8;
+    animation: toast .2s ease-in forwards;
+  }
+}
+
+@keyframes toast {
+  0% {
+    scale: 0.8;
+  }
+  100% {
+    scale: 1;
   }
 }

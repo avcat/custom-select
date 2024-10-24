@@ -1,5 +1,6 @@
 import customizations from '../data/customizations.js';
-import Fieldset from "../components/Fieldset.js";
+import Fieldset from '../components/Fieldset.js';
+import Toast from '../components/Toast.js';
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -69,6 +70,14 @@ document.addEventListener('DOMContentLoaded', () => {
       const testFormData = [...new FormData(testForm)];
       console.table(testFormData);
     } );
+  })();
+
+  // Output toasts
+  (() => {
+    Toast(`
+      <h3>1Test toast</h3>
+      <p>Par</p>  
+    `);
   })();
   
 }, { once: true });
